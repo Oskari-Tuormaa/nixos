@@ -10,7 +10,7 @@ This repository contains NixOS configurations for:
 - **hopper** - Personal Laptop (NVIDIA GPU + Desktop Environment)
 - **wilson** - Work Laptop (LUKS Encryption + Desktop Environment)
 - **perlman** - Home Server (Headless T480 Laptop, SSH Access)
-- **greene** - VM Test Host (VirtualBox VM with Desktop)
+- **greene** - WSL2 NixOS Test Host (Headless, learning & development sandbox)
 
 All machines share:
 - User: `okt`
@@ -71,9 +71,54 @@ sudo nixos-rebuild switch --flake .#wilson
 # Home Server
 sudo nixos-rebuild switch --flake .#perlman
 
-# VM Test Host
+# WSL2 Test Host (Greene)
 sudo nixos-rebuild switch --flake .#greene
 ```
+
+### Setting Up Greene (WSL2)
+
+Greene is intended as a testing/learning sandbox and runs on WSL2 (Hyper-V) instead of VirtualBox.
+
+**Prerequisites:**
+- WSL2 installed on Windows 11
+- Downloaded `nixos-wsl.tar.gz` from [NixOS-WSL releases](https://github.com/nix-community/NixOS-WSL/releases)
+
+**Installation steps:**
+
+1. **Install NixOS-WSL** (from PowerShell as Admin):
+   ```powershell
+   cd C:\Users\<username>
+   mkdir NixOS
+   cd NixOS
+   wsl --import greene . C:\path\to\nixos-wsl.tar.gz --version 2
+   ```
+
+2. **Boot Greene and set up**:
+   ```powershell
+   wsl -d greene
+   ```
+
+3. **Inside Greene, clone and deploy**:
+   ```bash
+   # As root initially
+   git clone /mnt/c/path/to/your/nixos /home/okt/nixos
+   cd /home/okt/nixos
+   
+   # Generate hardware configuration for WSL
+   nixos-generate-config --root / > /tmp/hw.nix
+   # Copy the relevant parts to hosts/greene/hardware-configuration.nix
+   
+   # Deploy the configuration
+   sudo nixos-rebuild switch --flake .#greene
+   ```
+
+4. **Access Greene**:
+   ```powershell
+   # From PowerShell anytime
+   wsl -d greene
+   
+   # Or from Windows Terminal - select "greene" from the dropdown
+   ```
 
 ## Repository Structure
 
@@ -93,8 +138,7 @@ sudo nixos-rebuild switch --flake .#greene
 │   ├── features/
 │   │   ├── nvidia.nix      # NVIDIA GPU support (lovelace, hopper)
 │   │   ├── desktop.nix     # X11, i3, picom (desktop machines)
-│   │   ├── encryption.nix  # LUKS encryption (wilson)
-│   │   └── vm-guest.nix    # VirtualBox guest additions (greene)
+│   │   └── encryption.nix  # LUKS encryption (wilson)
 │   └── services/
 │       └── default.nix     # Services (placeholder)
 ├── hosts/                   # Per-machine configurations
@@ -138,11 +182,13 @@ sudo nixos-rebuild switch --flake .#greene
   sudo nixos-rebuild switch --flake .#perlman
   ```
 
-### greene (VM Test Host)
-- **Features**: VirtualBox guest additions, Desktop Environment (X11 + i3 + picom)
-- **Default**: Testing environment for configuration changes
-- **Modules**: `common`, `desktop`, `vm-guest`
-- **Usage**: Test changes here before deploying to production machines
+### greene (WSL2 NixOS Test Host)
+- **Features**: Headless, native systemd, WSL2 integration, development sandbox
+- **Default**: Safe environment for learning NixOS, testing the flake, and development work
+- **Modules**: `common` (no desktop/GPU needed for headless WSL)
+- **Usage**: Test flake changes, learn NixOS workflows, run builds and development work
+- **Access**: `wsl -d greene` from PowerShell, or through Windows Terminal
+- **File sharing**: Windows files accessible at `/mnt/c/`
 
 ## Common Tools
 
@@ -249,6 +295,73 @@ Or select a specific generation:
 ```bash
 nix-env --list-generations  # List available generations
 sudo nixos-rebuild switch --profile /nix/var/nix/profiles/system --switch-generation 42
+```
+
+## Greene on WSL2 (WSL-Specific Notes)
+
+Greene runs on WSL2 (Windows Subsystem for Linux 2) powered by Hyper-V. This provides a lightweight, reproducible sandbox for learning and testing.
+
+### Access Greene
+
+From **PowerShell**:
+```powershell
+wsl -d greene
+```
+
+From **Windows Terminal**:
+- Select "greene" from the dropdown menu at the top
+
+### File Access
+
+Windows files are accessible from Greene at `/mnt/c/`:
+```bash
+# Access your home directory
+cd /mnt/c/Users/<username>
+
+# Access repository
+cd /mnt/c/path/to/your/nixos
+```
+
+### Updating WSL Itself
+
+If you need to update WSL to a newer version:
+```powershell
+wsl --update
+wsl --shutdown
+wsl -d greene
+```
+
+### Performance Tips
+
+- Greene boots very quickly (~5-10 seconds)
+- Building large Nix packages may be slower than on native hardware (due to virtualization)
+- WSL2 has excellent CPU/memory efficiency compared to full VMs
+
+### Managing Greene
+
+**Shutdown Greene**:
+```powershell
+wsl --terminate greene
+```
+
+**List all WSL instances**:
+```powershell
+wsl -l -v
+```
+
+**Backup Greene** (create a tarball):
+```powershell
+wsl --export greene C:\path\to\greene-backup.tar
+```
+
+**Restore from backup**:
+```powershell
+wsl --import greene-restored C:\path\to\restored\ C:\path\to\greene-backup.tar --version 2
+```
+
+**Delete Greene** (WARNING - destructive):
+```powershell
+wsl --unregister greene
 ```
 
 ## Future Enhancements

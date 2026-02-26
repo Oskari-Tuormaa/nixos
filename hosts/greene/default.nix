@@ -1,15 +1,41 @@
-# Greene: VM Test Host (VirtualBox VM with Desktop Environment)
+# Greene: WSL2 NixOS Test Host (Headless)
+# A safe sandbox for learning NixOS, testing the flake, and development work
+# Before using this, install NixOS-WSL manually:
+# 1. Download nixos-wsl.tar.gz from https://github.com/nix-community/NixOS-WSL/releases
+# 2. From PowerShell: wsl --import greene . C:\path\to\nixos-wsl.tar.gz --version 2
+# 3. Deploy: sudo nixos-rebuild switch --flake .#greene
+
 { config, pkgs, ... }:
 
 {
   imports = [
     ./hardware-configuration.nix
     ../../modules/common
-    ../../modules/features/desktop
-    ../../modules/features/vm-guest
   ];
 
   networking.hostName = "greene";
 
-  # VM-specific optimizations can go here
+  # WSL-specific configuration
+  # The nixos-wsl module is added in flake.nix and provides defaults
+  # These settings override/customize the module behavior
+  wsl = {
+    enable = true;
+    defaultUser = "okt";
+    nativeSystemd = true;  # Use native systemd (recommended for modern WSL)
+  };
+
+  # Home Manager integration - same as other machines
+  home-manager.users.okt = import ../../home/okt;
+
+  # Disable graphics since this is headless
+  services.xserver.enable = false;
+
+  # Enable SSH for remote access if needed
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = true;
+  };
+
+  # System state version
+  system.stateVersion = "24.05";
 }

@@ -13,9 +13,14 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, disko, nixos-wsl, ... }@inputs:
     let
       # Import helper functions
       lib = (import ./lib { inherit (nixpkgs) lib; inputs = inputs; });
@@ -53,8 +58,9 @@
           ./hosts/perlman
         ];
 
-        # Greene: VM Test Host (VirtualBox)
+        # Greene: VM Test Host (WSL2 NixOS)
         greene = mkHost "greene" [
+          nixos-wsl.nixosModules.default
           ./hosts/greene
         ];
       };
