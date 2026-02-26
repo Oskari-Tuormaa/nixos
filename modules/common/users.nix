@@ -2,11 +2,15 @@
 { config, pkgs, ... }:
 
 {
-  # Create the okt user
+  # Create the okt user with fish as default shell
   users.users.okt = {
     isNormalUser = true;
     home = "/home/okt";
+    shell = pkgs.fish;  # Set fish as default shell
     extraGroups = [ "wheel" ];  # Allow sudo
-    # Shell is managed by home-manager, not set here
   };
+  
+  # Suppress the shell program check warning since we're setting fish
+  # in both system and home-manager configs (which is safe)
+  users.users.okt.ignoreShellProgramCheck = true;
 }
