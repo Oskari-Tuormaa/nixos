@@ -13,6 +13,10 @@
       abbr -a ll ls -la
       abbr -a la ls -la
       abbr -a mkdir mkdir -p
+      
+      # Enable any-nix-shell for proper nix-shell support
+      # This makes nix-shell/nix run use fish instead of dropping to bash
+      ${pkgs.any-nix-shell}/bin/any-nix-shell fish --info-right | source
     '';
     loginShellInit = "";
   };

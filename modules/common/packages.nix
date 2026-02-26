@@ -29,5 +29,8 @@
     tmux
     unzip
     which
+
+    # Nix utilities
+    any-nix-shell  # Makes nix-shell use your current shell (fish in our case)
   ];
 }
