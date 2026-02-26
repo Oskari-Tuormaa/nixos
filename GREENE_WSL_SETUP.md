@@ -319,6 +319,25 @@ The main workflow:
 
 ## Troubleshooting
 
+### "wsl.nativeSystemd no longer has any effect" Error
+
+If you see an error about `wsl.nativeSystemd` being deprecated:
+
+```
+error: The option definition 'wsl.nativeSystemd' in ... no longer has any effect.
+Native systemd is now always enabled...
+```
+
+This means your nixos-wsl version has been updated and this option is no longer needed. The repository has been updated to fix this—just pull the latest changes:
+
+```bash
+cd /home/okt/nixos
+git pull origin main  # or your branch
+sudo nixos-rebuild switch --flake .#greene
+```
+
+If you're managing the configuration yourself, simply remove the `wsl.nativeSystemd = true;` line from `hosts/greene/default.nix`. Native systemd is now always enabled by default.
+
 ### Greene Won't Boot
 
 If you see errors when booting:
