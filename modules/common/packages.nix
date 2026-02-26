@@ -32,5 +32,8 @@
 
     # Nix utilities
     any-nix-shell  # Makes nix-shell use your current shell (fish in our case)
+    
+    # Prompt
+    starship  # Modern, fast, customizable prompt
   ];
 }
