@@ -9,6 +9,9 @@
       # Fish shell configuration
       set fish_greeting
       
+      # Enable VI key bindings
+      fish_vi_key_bindings
+      
       # Add useful abbreviations
       abbr -a ll ls -la
       abbr -a la ls -la
