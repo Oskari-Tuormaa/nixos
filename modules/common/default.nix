@@ -3,5 +3,6 @@
   imports = [
     ./packages.nix
     ./settings.nix
+    ./users.nix
   ];
 }
