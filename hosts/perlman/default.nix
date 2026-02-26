@@ -10,6 +10,9 @@
 
   networking.hostName = "perlman";
 
+  # Allow unfree packages (needed for some packages like brave)
+  nixpkgs.config.allowUnfree = true;
+
   # Disable X11 for headless server
   services.xserver.enable = false;
 

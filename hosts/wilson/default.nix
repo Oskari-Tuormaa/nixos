@@ -11,5 +11,8 @@
 
   networking.hostName = "wilson";
 
+  # Allow unfree packages (needed for some packages like brave)
+  nixpkgs.config.allowUnfree = true;
+
   # Work laptop-specific configuration can go here
 }

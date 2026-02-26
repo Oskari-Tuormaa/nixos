@@ -15,6 +15,9 @@
 
   networking.hostName = "greene";
 
+  # Allow unfree packages (needed for some packages like brave)
+  nixpkgs.config.allowUnfree = true;
+
   # WSL-specific configuration
   # The nixos-wsl module is added in flake.nix and provides defaults
   # These settings override/customize the module behavior

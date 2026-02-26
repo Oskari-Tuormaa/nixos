@@ -20,7 +20,7 @@
     # CLI tools
     ripgrep
     fd
-    exa
+    eza          # Modern replacement for exa (which is no longer maintained)
     zoxide
 
     # Utilities

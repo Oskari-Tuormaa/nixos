@@ -11,5 +11,8 @@
 
   networking.hostName = "lovelace";
 
+  # Allow unfree packages (needed for some packages like brave, nvidia drivers)
+  nixpkgs.config.allowUnfree = true;
+
   # Desktop-specific services can go here
 }

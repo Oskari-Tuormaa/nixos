@@ -36,8 +36,15 @@
   # Git configuration
   programs.git = {
     enable = true;
-    userName = "okt";
-    userEmail = "okt@localhost"; # TODO: Update with your email
+    userName = "okt";  # Will be moved to settings.user.name soon
+    userEmail = "okt@localhost"; # TODO: Update with your email (will be moved to settings.user.email)
+    # Using new settings format for future compatibility
+    extraConfig = {
+      user = {
+        name = "okt";
+        email = "okt@localhost";
+      };
+    };
     ignores = [ "*~" "*.swp" ".DS_Store" ];
   };
 

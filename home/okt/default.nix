@@ -13,8 +13,8 @@
   home.homeDirectory = "/home/okt";
   home.stateVersion = "24.05";
 
-  # Allow unfree packages if needed
-  nixpkgs.config.allowUnfree = true;
+  # Note: nixpkgs.config should be set at the system level when using
+  # home-manager.useGlobalPkgs = true (which we do in NixOS configs)
 
   # Environment variables
   home.sessionVariables = {

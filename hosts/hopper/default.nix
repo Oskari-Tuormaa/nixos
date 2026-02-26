@@ -11,5 +11,8 @@
 
   networking.hostName = "hopper";
 
+  # Allow unfree packages (needed for some packages like brave, nvidia drivers)
+  nixpkgs.config.allowUnfree = true;
+
   # Laptop-specific optimizations can go here
 }
