@@ -1,0 +1,41 @@
+# Nix build artifacts
+result
+result-*
+*.drv
+
+# flake.lock (initial state - you may want to commit this after first generation)
+# flake.lock
+
+# Direnv
+.direnv/
+.envrc.local
+
+# Editor/IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+
+# Hardware config should be generated, but we can version control it
+# Uncommment the next line if you want to keep hardware configs private
+# hosts/*/hardware-configuration.nix
+
+# Secrets (when using agenix, these should be committed but encrypted)
+# secrets/*.age is okay, but raw secrets should not be
+
+# Local overrides
+local.nix
+
+# NixOS system generations
+/etc/
+/var/
+
+# Build outputs
+/dist/
+/build/
