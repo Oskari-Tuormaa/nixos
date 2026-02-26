@@ -22,6 +22,9 @@
     TERMINAL = "kitty";
   };
 
+  # Set fish as the default shell (managed by home-manager)
+  home.preferXdgDirectories = true;
+
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 }

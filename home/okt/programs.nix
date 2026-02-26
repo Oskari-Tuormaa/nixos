@@ -2,7 +2,7 @@
 { config, pkgs, ... }:
 
 {
-  # Fish shell
+  # Fish shell - configured in home-manager
   programs.fish = {
     enable = true;
     interactiveShellInit = ''
@@ -14,6 +14,7 @@
       abbr -a la ls -la
       abbr -a mkdir mkdir -p
     '';
+    loginShellInit = "";
   };
 
   # Neovim
