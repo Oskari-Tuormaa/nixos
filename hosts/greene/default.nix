@@ -21,7 +21,7 @@
   wsl = {
     enable = true;
     defaultUser = "okt";
-    nativeSystemd = true;  # Use native systemd (recommended for modern WSL)
+    # Note: nativeSystemd is now always enabled by default in nixos-wsl
   };
 
   # Home Manager integration - same as other machines
