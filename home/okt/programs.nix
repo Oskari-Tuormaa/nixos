@@ -116,4 +116,24 @@
       };
     };
   };
+
+  # fzf - fuzzy finder for the command line
+  programs.fzf = {
+    enable = true;
+    enableFishIntegration = true;
+    
+    # fzf options
+    defaultOptions = [
+      "--height 40%"
+      "--border"
+      "--info inline"
+      "--preview-window right:50%"
+    ];
+    
+    # File preview with bat if available
+    fileWidgetOptions = [
+      "--preview 'head -100 {}'"
+      "--preview-window right:50%"
+    ];
+  };
 }
