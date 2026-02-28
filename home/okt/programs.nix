@@ -180,7 +180,7 @@
         "${modifier}+Shift+l" = "move right";
         # Replace default dmenu (Mod4+d) with rofi on Mod4+p
         "${modifier}+d" = null;
-        "${modifier}+p" = "exec rofi -show drun";
+        "${modifier}+p" = "exec rofi -modes drun,run,window -show drun";
         # Screenshot with flameshot
         "${modifier}+Shift+s" = "exec flameshot gui";
         # Open browser
