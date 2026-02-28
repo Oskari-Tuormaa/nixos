@@ -183,6 +183,8 @@
         "${modifier}+p" = "exec rofi -show drun";
         # Screenshot with flameshot
         "${modifier}+Shift+s" = "exec flameshot gui";
+        # Open browser
+        "${modifier}+Shift+f" = "exec brave";
       };
     };
   };
