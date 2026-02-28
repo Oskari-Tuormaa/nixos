@@ -13,8 +13,4 @@
     i3
     i3status
   ];
-
-  # Enable sound
-  sound.enable = true;
-  hardware.pulseaudio.enable = true;
 }

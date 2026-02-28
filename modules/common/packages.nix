@@ -9,6 +9,8 @@
 
     # Editor
     neovim
+    tree-sitter
+    nodejs_24
 
     # Browser
     brave
@@ -33,7 +35,10 @@
 
     # Nix utilities
     any-nix-shell  # Makes nix-shell use your current shell (fish in our case)
-    
+
+    # AI coding assistant
+    opencode
+
     # Prompt
     starship  # Modern, fast, customizable prompt
   ];
