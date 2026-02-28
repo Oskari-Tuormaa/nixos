@@ -35,6 +35,7 @@
   # Kitty terminal
   programs.kitty = {
     enable = true;
+    themeFile = "Dracula";
     settings = {
       font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
@@ -127,6 +128,32 @@
         names = [ "JetBrainsMono Nerd Font" ];
         size = 10.0;
       };
+      # Dracula colour theme for window borders and bar
+      colors = {
+        focused         = { border = "#6272A4"; background = "#6272A4"; text = "#F8F8F2"; indicator = "#6272A4"; childBorder = "#6272A4"; };
+        focusedInactive = { border = "#44475A"; background = "#44475A"; text = "#F8F8F2"; indicator = "#44475A"; childBorder = "#44475A"; };
+        unfocused       = { border = "#282A36"; background = "#282A36"; text = "#BFBFBF"; indicator = "#282A36"; childBorder = "#282A36"; };
+        urgent          = { border = "#44475A"; background = "#FF5555"; text = "#F8F8F2"; indicator = "#FF5555"; childBorder = "#FF5555"; };
+        placeholder     = { border = "#282A36"; background = "#282A36"; text = "#F8F8F2"; indicator = "#282A36"; childBorder = "#282A36"; };
+        background      = "#F8F8F2";
+      };
+      bars = [{
+        fonts = {
+          names = [ "JetBrainsMono Nerd Font" ];
+          size = 10.0;
+        };
+        statusCommand = "i3status";
+        colors = {
+          background  = "#282A36";
+          statusline  = "#F8F8F2";
+          separator   = "#44475A";
+          focusedWorkspace  = { border = "#44475A"; background = "#44475A"; text = "#F8F8F2"; };
+          activeWorkspace   = { border = "#282A36"; background = "#44475A"; text = "#F8F8F2"; };
+          inactiveWorkspace = { border = "#282A36"; background = "#282A36"; text = "#BFBFBF"; };
+          urgentWorkspace   = { border = "#FF5555"; background = "#FF5555"; text = "#F8F8F2"; };
+          bindingMode       = { border = "#FF5555"; background = "#FF5555"; text = "#F8F8F2"; };
+        };
+      }];
       # Vim motions for focus and window movement
       keybindings = let modifier = "Mod4"; in lib.mkOptionDefault {
         "${modifier}+h" = "focus left";
