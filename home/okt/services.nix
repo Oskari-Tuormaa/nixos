@@ -6,10 +6,11 @@
   services.picom = {
     enable = true;
     shadow = true;
-    shadowOffsets = [ (-7) (-7) ];
-    shadowOpacity = 0.75;
+    shadowOffsets = [ (-18) (-18) ];
+    shadowOpacity = 0.6;
     fade = false;
     settings = {
+      shadow-radius = 18;
       # Avoid shadows on i3 bar and desktop elements
       shadow-exclude = [
         "name = 'i3bar'"
