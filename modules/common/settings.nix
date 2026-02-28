@@ -15,9 +15,6 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
-  # Swap caps lock and escape keys
-  services.xserver.xkb.options = "caps:swapescape";
-
   # Basic system configuration
   system.stateVersion = "24.05";
 }
