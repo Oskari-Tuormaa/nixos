@@ -9,7 +9,6 @@
     shadowOffsets = [ (-7) (-7) ];
     shadowOpacity = 0.75;
     fade = false;
-    blur.enable = false;
     settings = {
       # Avoid shadows on i3 bar and desktop elements
       shadow-exclude = [
