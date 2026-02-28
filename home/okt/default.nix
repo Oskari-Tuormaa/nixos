@@ -25,6 +25,11 @@
   # Set fish as the default shell (managed by home-manager)
   home.preferXdgDirectories = true;
 
+  # Fonts
+  home.packages = with pkgs; [
+    nerd-fonts.jetbrains-mono
+  ];
+
   # Let home-manager manage itself
   programs.home-manager.enable = true;
 }

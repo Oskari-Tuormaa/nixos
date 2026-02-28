@@ -1,5 +1,5 @@
 # Program configurations for user 'okt'
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   # Fish shell - configured in home-manager
@@ -36,7 +36,7 @@
   programs.kitty = {
     enable = true;
     settings = {
-      font_family = "monospace";
+      font_family = "JetBrainsMono Nerd Font";
       font_size = 12;
     };
   };
@@ -47,8 +47,8 @@
     # Use new settings format (userName and userEmail are deprecated)
     settings = {
       user = {
-        name = "okt";
-        email = "okt@localhost";  # TODO: Update with your email
+        name = "Oskari Kristian Tuormaa";
+        email = "oskaritu@gmail.com";
       };
     };
     ignores = [ "*~" "*.swp" ".DS_Store" ];
@@ -113,6 +113,30 @@
       cmd_duration = {
         min_time = 500;
         format = "took [$duration]($style) ";
+      };
+    };
+  };
+
+  # i3 window manager - set kitty as the default terminal
+  xsession.windowManager.i3 = {
+    enable = true;
+    config = {
+      modifier = "Mod4";
+      terminal = "kitty";
+      fonts = {
+        names = [ "JetBrainsMono Nerd Font" ];
+        size = 10.0;
+      };
+      # Vim motions for focus and window movement
+      keybindings = let modifier = "Mod4"; in lib.mkOptionDefault {
+        "${modifier}+h" = "focus left";
+        "${modifier}+j" = "focus down";
+        "${modifier}+k" = "focus up";
+        "${modifier}+l" = "focus right";
+        "${modifier}+Shift+h" = "move left";
+        "${modifier}+Shift+j" = "move down";
+        "${modifier}+Shift+k" = "move up";
+        "${modifier}+Shift+l" = "move right";
       };
     };
   };
