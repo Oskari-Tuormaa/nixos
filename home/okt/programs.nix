@@ -59,6 +59,9 @@
   programs.zoxide = {
     enable = true;
     enableFishIntegration = true;
+    options = [
+      "--cmd cd"
+    ];
   };
 
   # Direnv - load project-specific environments
