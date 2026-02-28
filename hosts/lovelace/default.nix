@@ -5,8 +5,8 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/common
-    ../../modules/features/nvidia
-    ../../modules/features/desktop
+    ../../modules/features/nvidia.nix
+    ../../modules/features/desktop.nix
   ];
 
   networking.hostName = "lovelace";
@@ -15,4 +15,6 @@
   nixpkgs.config.allowUnfree = true;
 
   # Desktop-specific services can go here
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 }
