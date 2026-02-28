@@ -24,6 +24,9 @@ inputs.nixpkgs.lib.nixosSystem {
   modules = modules ++ [
     # Ensure home-manager is available
     inputs.home-manager.nixosModules.home-manager
+
+    # nix-index-database: pre-built index for nix-locate and comma
+    inputs.nix-index-database.nixosModules.nix-index
     
     # Add home-manager configuration
     {

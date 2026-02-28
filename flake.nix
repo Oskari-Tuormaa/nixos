@@ -18,9 +18,14 @@
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, nixos-wsl, ... }@inputs:
+  outputs = { self, nixpkgs, home-manager, disko, nixos-wsl, nix-index-database, ... }@inputs:
     let
       # Import helper functions
       lib = (import ./lib { inherit (nixpkgs) lib; inputs = inputs; });
