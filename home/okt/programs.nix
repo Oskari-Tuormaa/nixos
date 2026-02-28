@@ -171,6 +171,8 @@
         # Replace default dmenu (Mod4+d) with rofi on Mod4+p
         "${modifier}+d" = null;
         "${modifier}+p" = "exec rofi -show drun";
+        # Screenshot with flameshot
+        "${modifier}+Shift+s" = "exec flameshot gui";
       };
     };
   };

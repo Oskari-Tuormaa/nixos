@@ -13,5 +13,6 @@
     i3
     i3status
     rofi
+    flameshot
   ];
 }
