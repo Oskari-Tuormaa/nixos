@@ -9,8 +9,11 @@
 
     # Editor
     neovim
+
+    # Neovim plugin dependencies
     tree-sitter
     nodejs_24
+    imagemagick
 
     # Browser
     brave
@@ -32,6 +35,7 @@
     tmux
     unzip
     which
+    gcc
 
     # Nix utilities
     any-nix-shell  # Makes nix-shell use your current shell (fish in our case)
