@@ -35,6 +35,8 @@
     tmux
     unzip
     which
+    trash-cli
+    xclip
     gcc
 
     # Nix utilities
