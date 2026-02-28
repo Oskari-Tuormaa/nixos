@@ -124,6 +124,10 @@
     config = {
       modifier = "Mod4";
       terminal = "kitty";
+      gaps = {
+        inner = 10;
+        outer = 5;
+      };
       fonts = {
         names = [ "JetBrainsMono Nerd Font" ];
         size = 10.0;
