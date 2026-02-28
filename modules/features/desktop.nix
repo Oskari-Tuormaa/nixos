@@ -12,5 +12,6 @@
     picom
     i3
     i3status
+    rofi
   ];
 }

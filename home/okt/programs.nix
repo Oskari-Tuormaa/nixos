@@ -158,7 +158,7 @@
           bindingMode       = { border = "#FF5555"; background = "#FF5555"; text = "#F8F8F2"; };
         };
       }];
-      # Vim motions for focus and window movement
+      # Vim motions for focus and window movement; rofi launcher on Mod4+p
       keybindings = let modifier = "Mod4"; in lib.mkOptionDefault {
         "${modifier}+h" = "focus left";
         "${modifier}+j" = "focus down";
@@ -168,7 +168,52 @@
         "${modifier}+Shift+j" = "move down";
         "${modifier}+Shift+k" = "move up";
         "${modifier}+Shift+l" = "move right";
+        # Replace default dmenu (Mod4+d) with rofi on Mod4+p
+        "${modifier}+d" = null;
+        "${modifier}+p" = "exec rofi -show drun";
       };
+    };
+  };
+
+  # Rofi - application launcher with Dracula theme
+  programs.rofi = {
+    enable = true;
+    font = "JetBrainsMono Nerd Font 12";
+    theme = let m = config.lib.formats.rasi.mkLiteral; in {
+      "*" = {
+        foreground          = m "#F8F8F2";
+        background-color    = m "#282A36";
+        active-background   = m "#6272A4";
+        urgent-background   = m "#FF5555";
+        urgent-foreground   = m "#282A36";
+        selected-background = m "@active-background";
+        selected-urgent-background = m "@urgent-background";
+        selected-active-background = m "@active-background";
+        separatorcolor      = m "@active-background";
+        bordercolor         = m "@active-background";
+      };
+      "window" = {
+        background-color = m "@background-color";
+        border           = m "3";
+        border-radius    = m "6px";
+        border-color     = m "@bordercolor";
+        padding          = m "15";
+      };
+      "element.normal.normal"    = { background-color = m "@background-color"; text-color = m "@foreground"; };
+      "element.normal.urgent"    = { background-color = m "@urgent-background"; text-color = m "@urgent-foreground"; };
+      "element.normal.active"    = { background-color = m "@active-background"; text-color = m "@foreground"; };
+      "element.selected.normal"  = { background-color = m "@selected-background"; text-color = m "@foreground"; };
+      "element.selected.urgent"  = { background-color = m "@selected-urgent-background"; text-color = m "@foreground"; };
+      "element.selected.active"  = { background-color = m "@selected-active-background"; text-color = m "@foreground"; };
+      "element-text, element-icon" = { background-color = m "inherit"; text-color = m "inherit"; };
+      "inputbar" = { children = m "[ prompt, textbox-prompt-colon, entry, case-indicator ]"; };
+      "textbox-prompt-colon" = { expand = false; str = ">"; text-color = m "@foreground"; };
+    };
+    extraConfig = {
+      show-icons      = true;
+      display-drun    = "";
+      disable-history = false;
+      modi            = "drun";
     };
   };
 
