@@ -29,5 +29,8 @@
 
     # Browser
     brave
+
+    # Audio control interface
+    pavucontrol
   ];
 }

@@ -7,6 +7,7 @@
     ../../modules/common
     ../../modules/features/nvidia.nix
     ../../modules/features/desktop.nix
+    ../../modules/features/bluetooth.nix
   ];
 
   networking.hostName = "lovelace";
