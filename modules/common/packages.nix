@@ -3,9 +3,8 @@
 
 {
   environment.systemPackages = with pkgs; [
-    # Shell and terminal
+    # Shell
     fish
-    kitty
 
     # Editor
     neovim
@@ -14,9 +13,6 @@
     tree-sitter
     nodejs_24
     imagemagick
-
-    # Browser
-    brave
 
     # Git and version control
     git

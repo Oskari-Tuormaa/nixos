@@ -9,10 +9,19 @@
   };
 
   environment.systemPackages = with pkgs; [
-    picom
+    # Window manager
     i3
     i3status
+    picom
     rofi
+
+    # Screenshots
     flameshot
+
+    # Terminal
+    kitty
+
+    # Browser
+    brave
   ];
 }
