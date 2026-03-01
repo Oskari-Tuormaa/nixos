@@ -24,6 +24,7 @@
     eza # Modern replacement for exa (which is no longer maintained)
     zoxide
     fzf # Fuzzy finder for command line
+    bat
 
     # Utilities
     curl

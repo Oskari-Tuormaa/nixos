@@ -33,6 +33,7 @@
 
       # Useful aliases
       alias ls exa
+      alias cat bat
 
       # Enable any-nix-shell for proper nix-shell support
       # This makes nix-shell/nix run use fish instead of dropping to bash
