@@ -190,6 +190,8 @@ in
         "${modifier}+Shift+s" = "exec flameshot gui";
         # Open browser
         "${modifier}+Shift+f" = "exec brave";
+        # Swap to the previously focused workspace
+        "${modifier}+Tab" = "workspace back_and_forth";
       };
       startup = [
         # Set wallpaper on every i3 start/reload
