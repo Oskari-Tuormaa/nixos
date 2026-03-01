@@ -5,8 +5,8 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/common
-    ../../modules/features/encryption
-    ../../modules/features/desktop
+    ../../modules/features/encryption.nix
+    ../../modules/features/desktop.nix
   ];
 
   networking.hostName = "wilson";
@@ -15,4 +15,6 @@
   nixpkgs.config.allowUnfree = true;
 
   # Work laptop-specific configuration can go here
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
 }
