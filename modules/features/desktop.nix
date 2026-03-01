@@ -39,7 +39,14 @@
     # Browser
     brave
 
+    # File browser
+    nemo
+
     # Audio control interface
     pavucontrol
+
+    # Misc
+    spotify
+    feh
   ];
 }
