@@ -86,51 +86,6 @@ in
   # Starship prompt - modern, customizable prompt
   programs.starship = {
     enable = true;
-    settings = {
-      # Starship configuration
-      format = "$username$hostname$directory$git_branch$git_status$nix_shell$cmd_duration$line_break$character";
-      
-      # Configure individual modules
-      character = {
-        success_symbol = "[➜](bold green)";
-        error_symbol = "[➜](bold red)";
-      };
-      
-      directory = {
-        truncation_length = 3;
-        truncate_to_repo = true;
-        home_symbol = "~";
-      };
-      
-      git_branch = {
-        symbol = " ";
-        format = "on [$symbol$branch(:$remote_name)]($style) ";
-      };
-      
-      git_status = {
-        format = "([$all_status$ahead_behind]($style) )?";
-      };
-      
-      nix_shell = {
-        symbol = "❄️ ";
-        format = "via [$symbol]($style)";
-      };
-      
-      username = {
-        show_always = true;
-        format = "[$user]($style)@";
-      };
-      
-      hostname = {
-        ssh_only = false;
-        format = "[$hostname]($style) ";
-      };
-      
-      cmd_duration = {
-        min_time = 500;
-        format = "took [$duration]($style) ";
-      };
-    };
   };
 
   # i3 window manager - set kitty as the default terminal
