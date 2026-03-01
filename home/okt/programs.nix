@@ -16,12 +16,13 @@
       abbr -a ll ls -la
       abbr -a la ls -la
       abbr -a mkdir mkdir -p
-
       abbr v nvim
       abbr sv sudoedit
       abbr lg lazygit
-
       abbr rm trash
+
+      # Useful aliases
+      alias ls exa
       
       # Enable any-nix-shell for proper nix-shell support
       # This makes nix-shell/nix run use fish instead of dropping to bash
