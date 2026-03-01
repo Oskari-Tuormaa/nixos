@@ -14,6 +14,15 @@
     };
   };
 
+  services.pipewire = {
+    enable = true;
+    alsa.enable = true;
+    pulse.enable = true;
+  };
+
+  # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
+  services.udisks2.enable = true;
+
   environment.systemPackages = with pkgs; [
     # Window manager
     i3
