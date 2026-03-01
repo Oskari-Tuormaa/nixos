@@ -69,24 +69,26 @@ sudo nixos-rebuild switch --rollback
 
 ---
 
-## Nix Evaluation / Linting
+## Nix Evaluation / Linting / Formatting
 
-There is no separate lint tool. Use these to validate changes:
+Use these commands to validate and format changes:
 
 ```bash
+# Format all Nix files (REQUIRED before committing)
+nixfmt .
+
 # Evaluate flake outputs without building (fast syntax + type check)
 nix flake check
 
 # Check a specific nixosConfiguration evaluates
 nix eval .#nixosConfigurations.lovelace.config.system.build.toplevel
-
-# Format Nix files (if alejandra or nixpkgs-fmt is available)
-alejandra .
-# or
-nixpkgs-fmt .
 ```
 
-**Note:** `nix flake check` is the primary validation command. Run it before committing any Nix changes.
+**Important:** Always format code with `nixfmt .` before committing. This is required for consistency. The typical workflow is:
+1. Make changes
+2. Run `nixfmt .` to format
+3. Run `nix flake check` to validate
+4. Commit changes
 
 ---
 
@@ -107,6 +109,21 @@ There is no automated test suite. The recommended workflow is:
 sudo nixos-generate-config --root /
 # Copy result to hosts/<hostname>/hardware-configuration.nix
 ```
+
+---
+
+## Validation & Error Handling
+
+### Primary validation command
+Always run `nix flake check` before committing changes. This validates:
+- Syntax correctness
+- Type checking
+- All nixosConfigurations are evaluable
+
+### Common error patterns
+- **Attribute not found**: Usually means a module or option was imported incorrectly or doesn't exist in the current nixpkgs version.
+- **Infinite recursion**: Often caused by circular imports or improper use of `with` statements.
+- **Evaluation errors**: Check that all referenced paths are tracked in git (`git add`) before running `nixos-rebuild`.
 
 ---
 
@@ -214,6 +231,33 @@ interactiveShellInit = ''
 
 ---
 
+## Helper Functions
+
+The `lib/` directory provides reusable functions for creating configurations:
+
+### `lib.mkHost`
+Creates a NixOS host configuration with Home Manager integration.
+```nix
+lib.mkHost {
+  hostname = "lovelace";
+  system = "x86_64-linux";
+  modules = [ ./hosts/lovelace ];
+  wallpaperPath = ../home/okt/custom.png;  # optional, defaults to solar.png
+}
+```
+
+### `lib.mkHome`
+Creates a standalone Home Manager configuration.
+```nix
+lib.mkHome {
+  username = "okt";
+  homeDirectory = "/home/okt";
+  system = "x86_64-linux";
+}
+```
+
+---
+
 ## Structural Conventions
 
 ### Adding a new host
@@ -251,3 +295,19 @@ Set once in `modules/common/settings.nix`. Do not override per-host unless inten
 - All files referenced by the flake must be tracked by git (`git add`) before `nixos-rebuild` will see them.
 - Commit logical units of change; keep flake.lock updates in their own commit.
 - Test in greene before deploying to production hosts.
+
+---
+
+## Quick Reference: Common Tasks for Agents
+
+| Task | Command |
+|------|---------|
+| **Format code** | `nixfmt .` |
+| Validate all changes | `nix flake check` |
+| Check specific host builds | `sudo nixos-rebuild build --flake .#<hostname>` |
+| Evaluate without building | `nix flake check` |
+| Preview changes (dry-run) | `sudo nixos-rebuild dry-run --flake .#<hostname>` |
+| Apply to current machine | `sudo nixos-rebuild switch --flake .#<hostname>` |
+| Rollback last change | `sudo nixos-rebuild switch --rollback` |
+| Update dependencies | `nix flake update` |
+| View commit history | `git log --oneline` |
