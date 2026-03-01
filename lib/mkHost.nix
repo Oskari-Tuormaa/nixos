@@ -11,6 +11,7 @@
 { hostname
 , system
 , modules
+, wallpaperPath ? ../home/okt/solar.png
 , ...
 }@args:
 
@@ -34,7 +35,7 @@ inputs.nixpkgs.lib.nixosSystem {
         useGlobalPkgs = true;
         useUserPackages = true;
         users.okt = import ../home/okt;
-        extraSpecialArgs = { inherit inputs; };
+        extraSpecialArgs = { inherit inputs wallpaperPath; };
       };
     }
   ];

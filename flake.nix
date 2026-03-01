@@ -34,11 +34,11 @@
       system = "x86_64-linux";
 
       # Utility function to create a host with mkHost helper
-      mkHost = hostname: modules:
-        lib.mkHost {
+      mkHost = hostname: modules: extraArgs:
+        lib.mkHost ({
           inherit hostname system;
           modules = modules;
-        };
+        } // extraArgs);
 
     in
     {
@@ -46,28 +46,29 @@
         # Lovelace: Personal Desktop (NVIDIA GPU + Desktop Environment)
         lovelace = mkHost "lovelace" [
           ./hosts/lovelace
-        ];
+        ] {};
 
         # Hopper: Personal Laptop (NVIDIA GPU + Desktop Environment)
         hopper = mkHost "hopper" [
           ./hosts/hopper
-        ];
+        ] {};
 
         # Wilson: Work Laptop (Encrypted + Desktop Environment)
+        # TODO: Replace with a wilson-specific wallpaper when available
         wilson = mkHost "wilson" [
           ./hosts/wilson
-        ];
+        ] {};
 
         # Perlman: Home Server (Headless)
         perlman = mkHost "perlman" [
           ./hosts/perlman
-        ];
+        ] {};
 
         # Greene: VM Test Host (WSL2 NixOS)
         greene = mkHost "greene" [
           nixos-wsl.nixosModules.default
           ./hosts/greene
-        ];
+        ] {};
       };
 
       # Optional: Home Manager configurations for standalone use

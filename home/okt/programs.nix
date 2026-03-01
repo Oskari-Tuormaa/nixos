@@ -1,5 +1,9 @@
 # Program configurations for user 'okt'
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, wallpaperPath, ... }:
+
+let
+  wallpaper = pkgs.copyPathToStore wallpaperPath;
+in
 
 {
   # Fish shell - configured in home-manager
@@ -187,6 +191,10 @@
         # Open browser
         "${modifier}+Shift+f" = "exec brave";
       };
+      startup = [
+        # Set wallpaper on every i3 start/reload
+        { command = "${pkgs.feh}/bin/feh --bg-fill ${wallpaper}"; always = true; notification = false; }
+      ];
     };
   };
 
