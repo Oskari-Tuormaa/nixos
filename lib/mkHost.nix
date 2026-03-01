@@ -8,16 +8,17 @@
 
 { inputs, lib }:
 
-{ hostname
-, system
-, modules
-, wallpaperPath ? ../home/okt/solar.png
-, ...
+{
+  hostname,
+  system,
+  modules,
+  wallpaperPath ? ../home/okt/solar.png,
+  ...
 }@args:
 
 inputs.nixpkgs.lib.nixosSystem {
   inherit system;
-  
+
   specialArgs = {
     inherit inputs;
   };
@@ -28,7 +29,7 @@ inputs.nixpkgs.lib.nixosSystem {
 
     # nix-index-database: pre-built index for nix-locate and comma
     inputs.nix-index-database.nixosModules.nix-index
-    
+
     # Add home-manager configuration
     {
       home-manager = {

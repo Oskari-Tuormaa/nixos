@@ -1,5 +1,10 @@
 # Common system settings for all machines
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Locale and timezone - customize as needed
@@ -12,7 +17,10 @@
 
   # Enable Nix flakes and nix-command
   nix = {
-    settings.experimental-features = [ "nix-command" "flakes" ];
+    settings.experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
   };
 
   # Enable nix-ld globally

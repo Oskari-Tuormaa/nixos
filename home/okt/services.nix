@@ -6,7 +6,10 @@
   services.picom = {
     enable = true;
     shadow = true;
-    shadowOffsets = [ (-18) (-18) ];
+    shadowOffsets = [
+      (-18)
+      (-18)
+    ];
     shadowOpacity = 0.6;
     fade = false;
     settings = {

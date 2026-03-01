@@ -1,13 +1,19 @@
 # Greene (WSL2) hardware configuration
 # Generated from NixOS-WSL environment
-# 
+#
 # To regenerate this file after installing NixOS-WSL:
 # 1. Inside Greene WSL: sudo nixos-generate-config --root /
 # 2. Copy output to this file
-# 
+#
 # For initial setup, this minimal config will work with NixOS-WSL defaults
 
-{ config, lib, pkgs, modulesPath, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  modulesPath,
+  ...
+}:
 
 {
   imports = [

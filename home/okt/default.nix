@@ -1,6 +1,11 @@
 # Home Manager configuration for user 'okt'
 # This configuration is shared across all machines
-{ config, pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   imports = [

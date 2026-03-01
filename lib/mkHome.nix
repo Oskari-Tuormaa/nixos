@@ -8,16 +8,17 @@
 
 { inputs, lib }:
 
-{ username
-, homeDirectory ? "/home/${username}"
-, system
-, ...
+{
+  username,
+  homeDirectory ? "/home/${username}",
+  system,
+  ...
 }@args:
 
 inputs.home-manager.lib.homeManagerConfiguration {
   inherit system;
   pkgs = inputs.nixpkgs.legacyPackages.${system};
-  
+
   modules = [
     ../home/okt
     {
@@ -26,6 +27,6 @@ inputs.home-manager.lib.homeManagerConfiguration {
       };
     }
   ];
-  
+
   extraSpecialArgs = { inherit inputs; };
 }

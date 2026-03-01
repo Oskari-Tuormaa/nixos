@@ -21,9 +21,9 @@
     # CLI tools
     ripgrep
     fd
-    eza          # Modern replacement for exa (which is no longer maintained)
+    eza # Modern replacement for exa (which is no longer maintained)
     zoxide
-    fzf          # Fuzzy finder for command line
+    fzf # Fuzzy finder for command line
 
     # Utilities
     curl
@@ -37,12 +37,12 @@
     gnumake
 
     # Nix utilities
-    any-nix-shell  # Makes nix-shell use your current shell (fish in our case)
+    any-nix-shell # Makes nix-shell use your current shell (fish in our case)
 
     # AI coding assistant
     opencode
 
     # Prompt
-    starship  # Modern, fast, customizable prompt
+    starship # Modern, fast, customizable prompt
   ];
 }

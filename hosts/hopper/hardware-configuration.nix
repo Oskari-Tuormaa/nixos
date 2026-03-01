@@ -2,7 +2,12 @@
 # Generate with: nixos-generate-config --root /mnt
 # This is a placeholder - will be replaced when you install NixOS on hopper
 
-{ config, lib, pkgs, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 {
   imports = [ <nixpkgs/nixos/modules/installer/scan/not-detected.nix> ];
