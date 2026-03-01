@@ -21,6 +21,11 @@ in
         inner = 10;
         outer = 5;
       };
+      floating.border = 3;
+      window = {
+        border = 3;
+        titlebar = false;
+      };
       fonts = {
         names = [ "JetBrainsMono Nerd Font" ];
         size = 10.0;
