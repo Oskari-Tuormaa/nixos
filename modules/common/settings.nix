@@ -15,6 +15,9 @@
     settings.experimental-features = [ "nix-command" "flakes" ];
   };
 
+  # Enable nix-ld globally
+  programs.nix-ld.enable = true;
+
   # Basic system configuration
   system.stateVersion = "24.05";
 }
