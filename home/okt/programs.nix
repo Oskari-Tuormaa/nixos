@@ -118,4 +118,15 @@
       "--preview-window right:50%"
     ];
   };
+
+  programs.chromium = {
+    enable = true;
+    package = pkgs.brave;
+    extensions = [
+      "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
+      "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
+      "gfapcejdoghpoidkfodoiiffaaibpaem" # Dracula color theme
+      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+    ];
+  };
 }

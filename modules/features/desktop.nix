@@ -36,9 +36,6 @@
     # Terminal
     kitty
 
-    # Browser
-    brave
-
     # File browser
     nemo
 
