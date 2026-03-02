@@ -21,7 +21,25 @@ in
         inner = 10;
         outer = 5;
       };
-      floating.border = 3;
+      floating = {
+        border = 3;
+        # Honour EWMH window type hints that request floating
+        criteria = [
+          { window_type = "dialog"; }
+          { window_type = "utility"; }
+          { window_type = "toolbar"; }
+          { window_type = "splash"; }
+          { window_type = "menu"; }
+          { window_type = "dropdown_menu"; }
+          { window_type = "popup_menu"; }
+          { window_type = "tooltip"; }
+          { window_type = "notification"; }
+          { window_role = "pop-up"; }
+          { window_role = "bubble"; }
+          { window_role = "task_dialog"; }
+          { window_role = "Preferences"; }
+        ];
+      };
       window = {
         border = 3;
         titlebar = false;
