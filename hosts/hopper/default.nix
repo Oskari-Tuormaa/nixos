@@ -5,8 +5,8 @@
   imports = [
     ./hardware-configuration.nix
     ../../modules/common
-    ../../modules/features/nvidia
-    ../../modules/features/desktop
+    ../../modules/features/nvidia.nix
+    ../../modules/features/desktop.nix
   ];
 
   networking.hostName = "hopper";
