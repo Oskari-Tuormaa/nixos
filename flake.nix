@@ -87,6 +87,11 @@
           nixos-wsl.nixosModules.default
           ./hosts/greene
         ] { };
+
+        # Greene: VM Test Host (WSL2 NixOS)
+        qemu = mkHost "qemu" [
+          ./hosts/qemu
+        ] { };
       };
 
       # Optional: Home Manager configurations for standalone use
