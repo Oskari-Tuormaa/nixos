@@ -42,8 +42,11 @@
     # Audio control interface
     pavucontrol
 
-    # Misc
+    # Assorted GUI programs
     spotify
+    discord
+
+    # Misc
     feh
   ];
 }
