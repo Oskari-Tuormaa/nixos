@@ -4,7 +4,6 @@
 {
   services.xserver = {
     enable = true;
-    displayManager.lightdm.enable = true;
     windowManager.i3.enable = true;
     autoRepeatDelay = 250;
     autoRepeatInterval = 25;
@@ -13,6 +12,8 @@
       options = "grp:alt_space_toggle,caps:swapescape";
     };
   };
+
+  services.displayManager.ly.enable = true;
 
   services.pipewire = {
     enable = true;
