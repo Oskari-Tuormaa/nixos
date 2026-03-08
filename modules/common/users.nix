@@ -8,6 +8,7 @@
     home = "/home/okt";
     shell = pkgs.fish; # Set fish as default shell
     extraGroups = [ "wheel" ]; # Allow sudo
+    initialHashedPassword = "$y$j9T$GP.9etffB2GttjTvF7gEw0$OK/KzBwFcz7iFufUtYg9SnBrp7IvyRTIKjNafyYC2QC";
   };
 
   # Suppress the shell program check warning since we're setting fish
