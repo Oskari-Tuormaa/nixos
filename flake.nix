@@ -58,6 +58,8 @@
           // extraArgs
         );
 
+      pkgs = nixpkgs.legacyPackages.${system};
+
     in
     {
       nixosConfigurations = {
@@ -109,6 +111,15 @@
           type = "app";
           program = "${nixpkgs.legacyPackages.${system}.bash}/bin/bash -c 'nix flake update'";
         };
+      };
+
+      # Development environment
+      devShells.${system}.default = pkgs.mkShell {
+        description = "Development environment for NixOS configuration";
+        buildInputs = with pkgs; [
+          nixfmt
+          git
+        ];
       };
     };
 }
