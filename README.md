@@ -1,6 +1,6 @@
 # Multi-Machine NixOS Configuration
 
-A reproducible, flakes-based NixOS configuration for managing 5 machines with a shared user environment and machine-specific customizations.
+A reproducible, flakes-based NixOS configuration for managing 6 machines with a shared user environment and machine-specific customizations.
 
 ## Overview
 
@@ -11,6 +11,7 @@ This repository contains NixOS configurations for:
 - **wilson** - Work Laptop (LUKS Encryption + Desktop Environment)
 - **perlman** - Home Server (Headless T480 Laptop, SSH Access)
 - **greene** - WSL2 NixOS Test Host (Headless, learning & development sandbox)
+- **hedy** - QEMU/KVM Test Host (Linux KVM, testing & development sandbox)
 
 All machines share:
 - User: `okt`
@@ -73,6 +74,9 @@ sudo nixos-rebuild switch --flake .#perlman
 
 # WSL2 Test Host (Greene)
 sudo nixos-rebuild switch --flake .#greene
+
+# QEMU/KVM Test Host (Hedy)
+sudo nixos-rebuild switch --flake .#hedy
 ```
 
 ### Setting Up Greene (WSL2)

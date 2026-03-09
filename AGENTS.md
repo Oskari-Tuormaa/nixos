@@ -1,253 +1,112 @@
 # AGENTS.md — NixOS Configuration Repository
 
-This file documents conventions and commands for agentic coding agents operating in this NixOS flake repository.
+This file documents conventions and commands for agentic coding agents operating in this NixOS flake repository. A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
 
----
+**Hosts:** lovelace (desktop), hopper (laptop), wilson (work laptop), perlman (server), greene (WSL2), hedy (QEMU/KVM)
 
-## Repository Overview
-
-A flakes-based NixOS configuration managing 5 machines with shared modules and per-host customisation.
+## Repository Structure
 
 ```
-flake.nix              # Entry point; defines all nixosConfigurations
-flake.lock             # Locked dependency versions (auto-managed)
-lib/                   # Helper functions (mkHost, mkHome)
-modules/
-  common/              # Imported by every host (packages, settings, users)
-  features/            # Opt-in feature modules (nvidia, desktop, encryption, vm-guest)
-  services/            # System services (SSH, etc.)
-hosts/                 # Per-machine configurations + hardware-configuration.nix
-home/okt/              # Home Manager config shared by the okt user on all machines
+flake.nix                    # Entry point; defines all nixosConfigurations
+lib/                         # Helper functions (mkHost, mkHome)
+modules/common/              # Imported by every host
+modules/features/            # Opt-in features (nvidia, desktop, encryption, vm-guest, etc.)
+modules/services/            # System services
+hosts/                        # Per-machine configs + hardware-configuration.nix
+home/okt/                     # Home Manager config
 ```
 
-Hosts: **lovelace** (desktop), **hopper** (laptop), **wilson** (work laptop), **perlman** (server), **greene** (WSL2 sandbox).
+## Build & Deploy
 
----
-
-## Build & Deploy Commands
-
-### Apply configuration to the current machine
-```bash
-sudo nixos-rebuild switch --flake .#<hostname>
-```
-
-### Apply to a specific host
-```bash
-sudo nixos-rebuild switch --flake .#lovelace
-sudo nixos-rebuild switch --flake .#hopper
-sudo nixos-rebuild switch --flake .#wilson
-sudo nixos-rebuild switch --flake .#perlman
-sudo nixos-rebuild switch --flake .#greene   # WSL2
-```
-
-### Dry-run (evaluate & show planned changes without building)
-```bash
-sudo nixos-rebuild dry-run --flake .#<hostname>
-```
-
-### Build without switching (useful for checking a config builds)
-```bash
-sudo nixos-rebuild build --flake .#<hostname>
-```
-
-### Check flake syntax and evaluation
-```bash
-nix flake check
-```
-
-### Update flake inputs (nixpkgs, home-manager, etc.)
-```bash
-nix flake update
-git add flake.lock
-git commit -m "Update flake dependencies"
-```
-
-### Rollback
-```bash
-sudo nixos-rebuild switch --rollback
-```
-
----
-
-## Nix Evaluation / Linting / Formatting
-
-Use these commands to validate and format changes:
+### Essential Commands
 
 ```bash
 # Format all Nix files (REQUIRED before committing)
 nixfmt .
 
-# Evaluate flake outputs without building (fast syntax + type check)
+# Validate flake syntax and evaluation
 nix flake check
 
-# Check a specific nixosConfiguration evaluates
-nix eval .#nixosConfigurations.lovelace.config.system.build.toplevel
+# Build specific host config (without switching)
+sudo nixos-rebuild build --flake .#<hostname>
+
+# Apply configuration to machine
+sudo nixos-rebuild switch --flake .#<hostname>
+
+# Dry-run to preview changes
+sudo nixos-rebuild dry-run --flake .#<hostname>
+
+# Rollback to previous generation
+sudo nixos-rebuild switch --rollback
+
+# Update flake inputs
+nix flake update && git add flake.lock
 ```
 
-**Important:** Always format code with `nixfmt .` before committing. This is required for consistency. The typical workflow is:
-1. Make changes
-2. Run `nixfmt .` to format
-3. Run `nix flake check` to validate
-4. Commit changes
+### Testing Workflow
 
----
-
-## Testing Changes
-
-There is no automated test suite. The recommended workflow is:
-
-1. **Validate syntax**: `nix flake check`
-2. **Test in greene** (WSL2 sandbox) before applying to production hosts:
-   ```bash
-   sudo nixos-rebuild dry-run --flake .#greene
-   sudo nixos-rebuild switch --flake .#greene
-   ```
-3. **Deploy to target host** after greene passes.
-
-### Generate hardware configuration for a new machine
+**Always test in greene (WSL2 sandbox) before production hosts:**
 ```bash
-sudo nixos-generate-config --root /
-# Copy result to hosts/<hostname>/hardware-configuration.nix
+nix flake check                          # Validate syntax
+sudo nixos-rebuild dry-run --flake .#greene
+sudo nixos-rebuild switch --flake .#greene
 ```
 
----
+## Code Style Guidelines
 
-## Validation & Error Handling
+### File Structure
+- Every `.nix` file starts with a single-line comment: `# Brief description`
+- Module signature: `{ config, pkgs, lib, ... }:` (always include `...`)
+- Lib helpers use: `{ inputs, lib }:`
 
-### Primary validation command
-Always run `nix flake check` before committing changes. This validates:
-- Syntax correctness
-- Type checking
-- All nixosConfigurations are evaluable
-
-### Common error patterns
-- **Attribute not found**: Usually means a module or option was imported incorrectly or doesn't exist in the current nixpkgs version.
-- **Infinite recursion**: Often caused by circular imports or improper use of `with` statements.
-- **Evaluation errors**: Check that all referenced paths are tracked in git (`git add`) before running `nixos-rebuild`.
-
----
-
-## Nix Code Style Guidelines
-
-### File header comment
-Every `.nix` file starts with a single-line comment describing its purpose:
-```nix
-# Brief description of what this module does
-{ config, pkgs, lib, ... }:
-```
-
-### Module function signature
-- Use `{ config, pkgs, lib, ... }:` for NixOS/Home Manager modules.
-- Use `{ inputs, lib }:` for lib helpers.
-- Include `...` in the attribute set to allow forward compatibility.
-- Use `@args` only when you need to pass the full argument set through.
-
-### Attribute set formatting
-- Opening brace on the same line as the enclosing construct.
-- Each attribute on its own line, indented 2 spaces.
-- Closing brace on its own line at the same indentation level as the opening construct.
+### Formatting
+- Indent 2 spaces (enforced by `nixfmt`)
+- Opening brace on same line as construct; closing brace on own line
+- Each attribute on its own line
+- Use `with pkgs;` inside list expressions only
 
 ```nix
 hardware.nvidia = {
   modesetting.enable = true;
-  powerManagement.enable = false;
   open = true;
 };
 ```
 
-### `with pkgs;` idiom
-Use `with pkgs;` inside list expressions for package lists to avoid repetition:
-```nix
-environment.systemPackages = with pkgs; [
-  git
-  ripgrep
-  fd
-];
-```
-
-### `lib.mkDefault` and option precedence
-Use `lib.mkDefault` when a value should be overridable by host configs:
-```nix
-networking.useDHCP = lib.mkDefault true;
-```
-
-### Inline comments
-- Use `#` comments to explain *why*, not *what*.
-- Place comments on the line above the relevant attribute, not inline, unless very short.
-- Mark TODOs clearly: `# TODO: Update with your email`
+### Naming Conventions
+- **Files:** `kebab-case.nix` (e.g., `vm-guest.nix`, `mkHost.nix`)
+- **Hostnames:** lowercase single-word
+- **Identifiers:** `camelCase` for let bindings and function args
+- **NixOS options:** follow upstream conventions (dot-separated, camelCase)
 
 ### Imports
-- List imports explicitly in an `imports = [ ... ];` block at the top of the module attrset.
-- Use relative paths for local files (`./hardware-configuration.nix`, `../../modules/common`).
-- Use `inputs.<name>.nixosModules.<module>` for flake-provided modules.
+- Place `imports = [ ... ];` block at top of module
+- Use relative paths for local files: `./hardware-configuration.nix`, `../../modules/common`
+- Use `inputs.<name>.nixosModules.<module>` for flake modules
 
-```nix
-{
-  imports = [
-    ./hardware-configuration.nix
-    ../../modules/common
-    ../../modules/features/desktop.nix
-  ];
-}
-```
+### Comments & Options
+- Use `#` comments to explain *why*, not *what*
+- Place comments above the attribute, not inline (unless very short)
+- Mark TODOs clearly: `# TODO: description`
+- Use `lib.mkDefault` when value should be overridable by hosts
+- Use `inherit` to avoid repetition: `inherit inputs;` not `inputs = inputs;`
 
-### Naming conventions
-- **Files**: `kebab-case.nix` (e.g. `vm-guest.nix`, `mkHost.nix`)
-- **Hostnames**: lowercase single-word names (lovelace, hopper, wilson, perlman, greene)
-- **Nix identifiers**: `camelCase` for local `let` bindings and function arguments
-- **NixOS option paths**: follow upstream NixOS conventions (dot-separated, camelCase segments)
-
-### `let ... in` blocks
-Use `let` for named intermediate values to avoid repetition:
-```nix
-let
-  system = "x86_64-linux";
-  lib = (import ./lib { inherit (nixpkgs) lib; inputs = inputs; });
-in
-```
-
-### `inherit` keyword
-Use `inherit` to avoid repeating names when passing values:
-```nix
-specialArgs = { inherit inputs; };
-# instead of:
-specialArgs = { inputs = inputs; };
-```
-
-### String interpolation
-Use `${}` for Nix string interpolation:
-```nix
-program = "${nixpkgs.legacyPackages.${system}.bash}/bin/bash -c 'nix flake update'";
-```
-
-### Multi-line strings
-Use `''...''` for multi-line strings (e.g. shell init scripts):
-```nix
-interactiveShellInit = ''
-  set fish_greeting
-  fish_vi_key_bindings
-'';
-```
-
----
+### String Interpolation
+- Use `${}` for interpolation: `"${pkgs.bash}/bin/bash"`
+- Use `''...''` for multi-line strings (shell scripts, configs, etc.)
 
 ## Helper Functions
 
-The `lib/` directory provides reusable functions for creating configurations:
-
-### `lib.mkHost`
-Creates a NixOS host configuration with Home Manager integration.
+### `lib.mkHost` — Creates NixOS host with Home Manager
 ```nix
 lib.mkHost {
   hostname = "lovelace";
   system = "x86_64-linux";
   modules = [ ./hosts/lovelace ];
-  wallpaperPath = ../home/okt/custom.png;  # optional, defaults to solar.png
+  wallpaperPath = ../home/okt/custom.png;  # optional
 }
 ```
 
-### `lib.mkHome`
-Creates a standalone Home Manager configuration.
+### `lib.mkHome` — Standalone Home Manager config
 ```nix
 lib.mkHome {
   username = "okt";
@@ -256,58 +115,54 @@ lib.mkHome {
 }
 ```
 
----
-
 ## Structural Conventions
 
-### Adding a new host
-1. Create `hosts/<hostname>/default.nix` and `hosts/<hostname>/hardware-configuration.nix`.
-2. Import `../../modules/common` plus any relevant feature modules.
-3. Set `networking.hostName = "<hostname>";`.
-4. Register in `flake.nix` under `nixosConfigurations`.
+### Adding a New Host
+1. Create `hosts/<hostname>/default.nix` and `hardware-configuration.nix`
+2. Import `../../modules/common` + relevant feature modules
+3. Set `networking.hostName = "<hostname>";`
+4. Register in `flake.nix` under `nixosConfigurations`
 
-### Adding a new module
-- Place reusable opt-in features in `modules/features/`.
-- Place always-on system settings in `modules/common/`.
-- Place service definitions in `modules/services/`.
-- Keep modules focused: one concern per file.
+### Module Organization
+- **modules/features/**: Opt-in, reusable features
+- **modules/common/**: Always-on system settings
+- **modules/services/**: System services
+- Keep modules focused on one concern
 
-### Home Manager
-- The single user `okt` is configured in `home/okt/`.
-- `home/okt/default.nix` — entry point; sets `home.username`, `home.stateVersion`, session variables.
-- `home/okt/programs.nix` — all program configs (fish, neovim, git, starship, etc.).
-- `home/okt/services.nix` — user-level services (gpg-agent, ssh-agent, etc.).
-- Do **not** set `nixpkgs.config` inside Home Manager modules when `useGlobalPkgs = true`.
+### Home Manager (`home/okt/`)
+- **default.nix**: Entry point; sets username, stateVersion, session vars
+- **programs.nix**: All program configs (fish, neovim, git, starship)
+- **services.nix**: User-level services
+- Never set `nixpkgs.config` in Home Manager modules when `useGlobalPkgs = true`
 
-### `allowUnfree`
-Set at the host level inside `hosts/<hostname>/default.nix`, not in shared modules:
-```nix
-nixpkgs.config.allowUnfree = true;
-```
-
-### `system.stateVersion`
-Set once in `modules/common/settings.nix`. Do not override per-host unless intentional.
-
----
+### Configuration Placement
+- Set `allowUnfree` at host level only (`hosts/<hostname>/default.nix`)
+- Set `system.stateVersion` once in `modules/common/settings.nix`
+- Don't override stateVersion per-host
 
 ## Git Workflow
 
-- All files referenced by the flake must be tracked by git (`git add`) before `nixos-rebuild` will see them.
-- Commit logical units of change; keep flake.lock updates in their own commit.
-- Test in greene before deploying to production hosts.
+- All referenced paths must be tracked: `git add <file>` before `nixos-rebuild`
+- Commit logical units; keep `flake.lock` updates in separate commits
+- Always test in greene first before deploying to production
 
----
+## Error Handling
 
-## Quick Reference: Common Tasks for Agents
+| Error | Cause |
+|-------|-------|
+| **Attribute not found** | Module not imported or doesn't exist in nixpkgs version |
+| **Infinite recursion** | Circular imports or improper `with` statements |
+| **Evaluation errors** | Referenced paths not tracked in git |
+
+## Quick Reference
 
 | Task | Command |
 |------|---------|
-| **Format code** | `nixfmt .` |
-| Validate all changes | `nix flake check` |
-| Check specific host builds | `sudo nixos-rebuild build --flake .#<hostname>` |
-| Evaluate without building | `nix flake check` |
-| Preview changes (dry-run) | `sudo nixos-rebuild dry-run --flake .#<hostname>` |
-| Apply to current machine | `sudo nixos-rebuild switch --flake .#<hostname>` |
-| Rollback last change | `sudo nixos-rebuild switch --rollback` |
-| Update dependencies | `nix flake update` |
-| View commit history | `git log --oneline` |
+| Format | `nixfmt .` |
+| Validate | `nix flake check` |
+| Build host | `sudo nixos-rebuild build --flake .#<host>` |
+| Deploy | `sudo nixos-rebuild switch --flake .#<host>` |
+| Dry-run | `sudo nixos-rebuild dry-run --flake .#<host>` |
+| Rollback | `sudo nixos-rebuild switch --rollback` |
+| Update deps | `nix flake update && git add flake.lock` |
+| View history | `git log --oneline` |

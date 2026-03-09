@@ -87,6 +87,11 @@
           nixos-wsl.nixosModules.default
           ./hosts/greene
         ] { };
+
+        # Hedy: QEMU/KVM Test Host (Linux KVM)
+        hedy = mkHost "hedy" [
+          ./hosts/hedy
+        ] { };
       };
 
       # Optional: Home Manager configurations for standalone use
