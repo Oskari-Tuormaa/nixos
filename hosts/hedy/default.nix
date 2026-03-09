@@ -45,7 +45,7 @@
     wantedBy = [ "graphical-session.target" ];
     serviceConfig = {
       Type = "simple";
-      ExecStart = "${pkgs.spice-vdagent}/bin/spice-vdagent";
+      ExecStart = "${pkgs.spice-vdagent}/bin/spice-vdagent -x";
       Restart = "on-failure";
       RestartSec = 5;
     };
