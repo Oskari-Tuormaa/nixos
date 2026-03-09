@@ -32,9 +32,10 @@
   services.spice-vdagentd.enable = true;
   services.qemuGuest.enable = true;
 
-  # Add spice-vdagent to system packages
+  # Add SPICE packages to system
   environment.systemPackages = with pkgs; [
     spice-vdagent
+    spice-autorandr
   ];
 
   # Create user-level systemd service for spice-vdagent
@@ -46,6 +47,20 @@
     serviceConfig = {
       Type = "simple";
       ExecStart = "${pkgs.spice-vdagent}/bin/spice-vdagent -x";
+      Restart = "on-failure";
+      RestartSec = 5;
+    };
+  };
+
+  # Create user-level systemd service for spice-autorandr
+  # Monitors XRandR events and automatically applies resolution changes for i3
+  systemd.user.services.spice-autorandr = {
+    description = "SPICE automatic display resize for i3";
+    after = [ "spice-vdagent.service" ];
+    wantedBy = [ "graphical-session.target" ];
+    serviceConfig = {
+      Type = "simple";
+      ExecStart = "${pkgs.spice-autorandr}/bin/spice-autorandr";
       Restart = "on-failure";
       RestartSec = 5;
     };
