@@ -1,6 +1,6 @@
 # AGENTS.md — NixOS Configuration Repository
 
-This file documents conventions and commands for agentic coding agents operating in this NixOS flake repository. A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
+A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
 
 **Hosts:** lovelace (desktop), hopper (laptop), wilson (work laptop), perlman (server), greene (WSL2), hedy (QEMU/KVM)
 
@@ -8,17 +8,15 @@ This file documents conventions and commands for agentic coding agents operating
 
 ```
 flake.nix                    # Entry point; defines all nixosConfigurations
-lib/                         # Helper functions (mkHost, mkHome)
-modules/common/              # Imported by every host
-modules/features/            # Opt-in features (nvidia, desktop, encryption, vm-guest, etc.)
-modules/services/            # System services
-hosts/                        # Per-machine configs + hardware-configuration.nix
-home/okt/                     # Home Manager config
+lib/                         # mkHost and mkHome helpers
+modules/common/              # Imported by every host (packages, settings, users)
+modules/features/            # Opt-in features (nvidia, desktop, bluetooth, steam, vm-guest, encryption)
+modules/services/            # Placeholder for future system services
+hosts/                       # Per-machine configs + hardware-configuration.nix
+home/okt/                    # Home Manager config (programs, services, i3, rofi)
 ```
 
 ## Build & Deploy
-
-### Essential Commands
 
 ```bash
 # Format all Nix files (REQUIRED before committing)
@@ -43,56 +41,34 @@ sudo nixos-rebuild switch --rollback
 nix flake update && git add flake.lock
 ```
 
-### Testing Workflow
-
 **Always test in greene (WSL2 sandbox) before production hosts:**
 ```bash
-nix flake check                          # Validate syntax
+nix flake check
 sudo nixos-rebuild dry-run --flake .#greene
 sudo nixos-rebuild switch --flake .#greene
 ```
 
-## Code Style Guidelines
+## Code Style
 
-### File Structure
 - Every `.nix` file starts with a single-line comment: `# Brief description`
 - Module signature: `{ config, pkgs, lib, ... }:` (always include `...`)
 - Lib helpers use: `{ inputs, lib }:`
-
-### Formatting
 - Indent 2 spaces (enforced by `nixfmt`)
 - Opening brace on same line as construct; closing brace on own line
-- Each attribute on its own line
 - Use `with pkgs;` inside list expressions only
-
-```nix
-hardware.nvidia = {
-  modesetting.enable = true;
-  open = true;
-};
-```
-
-### Naming Conventions
-- **Files:** `kebab-case.nix` (e.g., `vm-guest.nix`, `mkHost.nix`)
-- **Hostnames:** lowercase single-word
-- **Identifiers:** `camelCase` for let bindings and function args
-- **NixOS options:** follow upstream conventions (dot-separated, camelCase)
-
-### Imports
-- Place `imports = [ ... ];` block at top of module
+- `imports = [ ... ];` block at top of module
 - Use relative paths for local files: `./hardware-configuration.nix`, `../../modules/common`
 - Use `inputs.<name>.nixosModules.<module>` for flake modules
-
-### Comments & Options
-- Use `#` comments to explain *why*, not *what*
-- Place comments above the attribute, not inline (unless very short)
+- Use `#` comments to explain *why*, not *what*; place above the attribute
 - Mark TODOs clearly: `# TODO: description`
-- Use `lib.mkDefault` when value should be overridable by hosts
-- Use `inherit` to avoid repetition: `inherit inputs;` not `inputs = inputs;`
+- Use `lib.mkDefault` when a value should be overridable by hosts
+- Use `inherit` to avoid repetition
 
-### String Interpolation
-- Use `${}` for interpolation: `"${pkgs.bash}/bin/bash"`
-- Use `''...''` for multi-line strings (shell scripts, configs, etc.)
+**Naming:**
+- Files: `kebab-case.nix`
+- Hostnames: lowercase single-word
+- Identifiers: `camelCase` for let bindings and function args
+- NixOS options: follow upstream conventions (dot-separated, camelCase)
 
 ## Helper Functions
 
@@ -102,9 +78,10 @@ lib.mkHost {
   hostname = "lovelace";
   system = "x86_64-linux";
   modules = [ ./hosts/lovelace ];
-  wallpaperPath = ../home/okt/custom.png;  # optional
+  wallpaperPath = ../home/okt/solar.png;  # optional; defaults to solar.png
 }
 ```
+Automatically adds home-manager and nix-index-database modules to every host.
 
 ### `lib.mkHome` — Standalone Home Manager config
 ```nix
@@ -115,36 +92,51 @@ lib.mkHome {
 }
 ```
 
+## Module Reference
+
+### `modules/common/` — always imported
+| File | Purpose |
+|------|---------|
+| `packages.nix` | Shared CLI tools: fish, neovim, git, lazygit, ripgrep, fd, eza, fzf, bat, tmux, zoxide, opencode, nixfmt, etc. |
+| `settings.nix` | Timezone, locale, networkmanager, nix flakes, nix-ld, `stateVersion = "24.05"` |
+| `users.nix` | Creates user `okt` with fish shell and wheel group |
+
+### `modules/features/` — opt-in per host
+| File | Purpose | Used by |
+|------|---------|---------|
+| `nvidia.nix` | NVIDIA driver + modesetting | lovelace, hopper |
+| `desktop.nix` | X11, i3, ly DM, pipewire, rofi, kitty, Discord, Spotify, etc. | lovelace, hopper, wilson, hedy |
+| `bluetooth.nix` | Bluetooth + blueman applet | lovelace |
+| `steam.nix` | Steam with firewall rules | lovelace |
+| `encryption.nix` | Placeholder — LUKS config lives in `hardware-configuration.nix` | wilson |
+| `vm-guest.nix` | VirtualBox guest additions | (unused — hedy uses native QEMU support) |
+
 ## Structural Conventions
 
 ### Adding a New Host
 1. Create `hosts/<hostname>/default.nix` and `hardware-configuration.nix`
 2. Import `../../modules/common` + relevant feature modules
-3. Set `networking.hostName = "<hostname>";`
-4. Register in `flake.nix` under `nixosConfigurations`
-
-### Module Organization
-- **modules/features/**: Opt-in, reusable features
-- **modules/common/**: Always-on system settings
-- **modules/services/**: System services
-- Keep modules focused on one concern
+3. Set `networking.hostName = "<hostname>"`
+4. Register in `flake.nix` under `nixosConfigurations` via `lib.mkHost`
 
 ### Home Manager (`home/okt/`)
-- **default.nix**: Entry point; sets username, stateVersion, session vars
-- **programs.nix**: All program configs (fish, neovim, git, starship)
-- **services.nix**: User-level services
+- `default.nix` — entry point; username, stateVersion, session vars, fonts
+- `programs.nix` — fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave; imports `i3.nix` and `rofi.nix`
+- `services.nix` — picom, dunst, udiskie
+- `i3.nix` — full i3 config (Dracula theme, vim keybindings, wallpaper via `wallpaperPath`)
+- `rofi.nix` — rofi launcher with Dracula theme
 - Never set `nixpkgs.config` in Home Manager modules when `useGlobalPkgs = true`
 
 ### Configuration Placement
 - Set `allowUnfree` at host level only (`hosts/<hostname>/default.nix`)
-- Set `system.stateVersion` once in `modules/common/settings.nix`
-- Don't override stateVersion per-host
+- `system.stateVersion` is set once in `modules/common/settings.nix` — do not override per-host
+- Wallpaper defaults to `home/okt/solar.png`; override per host via `wallpaperPath` in `mkHost`
 
 ## Git Workflow
 
 - All referenced paths must be tracked: `git add <file>` before `nixos-rebuild`
 - Commit logical units; keep `flake.lock` updates in separate commits
-- Always test in greene first before deploying to production
+- Always test in greene first before deploying to production hosts
 
 ## Error Handling
 
@@ -165,4 +157,3 @@ lib.mkHome {
 | Dry-run | `sudo nixos-rebuild dry-run --flake .#<host>` |
 | Rollback | `sudo nixos-rebuild switch --rollback` |
 | Update deps | `nix flake update && git add flake.lock` |
-| View history | `git log --oneline` |

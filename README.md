@@ -1,446 +1,129 @@
-# Multi-Machine NixOS Configuration
+# NixOS Configuration
 
-A reproducible, flakes-based NixOS configuration for managing 6 machines with a shared user environment and machine-specific customizations.
+A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
 
-## Overview
+## Hosts
 
-This repository contains NixOS configurations for:
+| Host | Role | Notes |
+|------|------|-------|
+| **lovelace** | Personal desktop | NVIDIA, i3, bluetooth, Steam |
+| **hopper** | Personal laptop | NVIDIA, i3 — hardware config placeholder |
+| **wilson** | Work laptop | LUKS encryption, i3, integrated GPU |
+| **perlman** | Home server | Headless, SSH — hardware config placeholder |
+| **greene** | WSL2 sandbox | Headless, for testing flake changes |
+| **hedy** | QEMU/KVM VM | i3, virtio GPU, SPICE agent |
 
-- **lovelace** - Personal Desktop (NVIDIA GPU + Desktop Environment)
-- **hopper** - Personal Laptop (NVIDIA GPU + Desktop Environment)
-- **wilson** - Work Laptop (LUKS Encryption + Desktop Environment)
-- **perlman** - Home Server (Headless T480 Laptop, SSH Access)
-- **greene** - WSL2 NixOS Test Host (Headless, learning & development sandbox)
-- **hedy** - QEMU/KVM Test Host (Linux KVM, testing & development sandbox)
-
-All machines share:
-- User: `okt`
-- Common packages: fish, neovim, kitty, brave, git, lazygit, ripgrep, fd, exa, zoxide
-- Common settings and services
-- Home Manager configuration
-
-## Quick Start
-
-### Prerequisites
-
-- NixOS installed on your machines (fresh install is fine)
-- Git installed
-- Access to this repository
-
-### Initial Setup on a New Machine
-
-1. **Install NixOS normally** on the target machine
-   - Use the standard NixOS installation process
-   - When installing, you can use a minimal configuration
-
-2. **Generate Hardware Configuration**
-   ```bash
-   sudo nixos-generate-config --root /mnt  # During installation
-   # OR
-   sudo nixos-generate-config  # On existing NixOS system
-   ```
-   Copy the generated `hardware-configuration.nix` to the appropriate host directory:
-   ```bash
-   sudo cp /etc/nixos/hardware-configuration.nix /path/to/nixos/hosts/<hostname>/
-   ```
-
-3. **Clone this repository** (if not already done)
-   ```bash
-   git clone <repository-url> /path/to/nixos
-   cd /path/to/nixos
-   ```
-
-4. **Deploy the configuration**
-   ```bash
-   sudo nixos-rebuild switch --flake .#<hostname>
-   ```
-
-### Deploying to Each Machine
-
-Replace `<hostname>` with the target machine:
-
-```bash
-# Desktop
-sudo nixos-rebuild switch --flake .#lovelace
-
-# Personal Laptop
-sudo nixos-rebuild switch --flake .#hopper
-
-# Work Laptop (with LUKS encryption)
-sudo nixos-rebuild switch --flake .#wilson
-
-# Home Server
-sudo nixos-rebuild switch --flake .#perlman
-
-# WSL2 Test Host (Greene)
-sudo nixos-rebuild switch --flake .#greene
-
-# QEMU/KVM Test Host (Hedy)
-sudo nixos-rebuild switch --flake .#hedy
-```
-
-### Setting Up Greene (WSL2)
-
-Greene is intended as a testing/learning sandbox and runs on WSL2 (Hyper-V) instead of VirtualBox.
-
-**Prerequisites:**
-- WSL2 installed on Windows 11
-- Downloaded `nixos-wsl.tar.gz` from [NixOS-WSL releases](https://github.com/nix-community/NixOS-WSL/releases)
-
-**Installation steps:**
-
-1. **Install NixOS-WSL** (from PowerShell as Admin):
-   ```powershell
-   cd C:\Users\<username>
-   mkdir NixOS
-   cd NixOS
-   wsl --import greene . C:\path\to\nixos-wsl.tar.gz --version 2
-   ```
-
-2. **Boot Greene and set up**:
-   ```powershell
-   wsl -d greene
-   ```
-
-3. **Inside Greene, clone and deploy**:
-   ```bash
-   # As root initially
-   git clone /mnt/c/path/to/your/nixos /home/okt/nixos
-   cd /home/okt/nixos
-   
-   # Generate hardware configuration for WSL
-   nixos-generate-config --root / > /tmp/hw.nix
-   # Copy the relevant parts to hosts/greene/hardware-configuration.nix
-   
-   # Deploy the configuration
-   sudo nixos-rebuild switch --flake .#greene
-   ```
-
-4. **Access Greene**:
-   ```powershell
-   # From PowerShell anytime
-   wsl -d greene
-   
-   # Or from Windows Terminal - select "greene" from the dropdown
-   ```
+All machines share user `okt` with fish, neovim, git, lazygit, ripgrep, fd, eza, zoxide, fzf, bat, tmux, opencode, and nixfmt.
 
 ## Repository Structure
 
 ```
-.
-├── flake.nix                 # Main flake definition
-├── flake.lock               # Dependency versions (auto-updated)
-├── lib/                     # Helper functions
-│   ├── default.nix
-│   ├── mkHost.nix          # NixOS configuration helper
-│   └── mkHome.nix          # Home Manager configuration helper
-├── modules/                 # Reusable configuration modules
-│   ├── common/
-│   │   ├── default.nix     # Common modules entry point
-│   │   ├── packages.nix    # Shared packages
-│   │   └── settings.nix    # Common system settings
-│   ├── features/
-│   │   ├── nvidia.nix      # NVIDIA GPU support (lovelace, hopper)
-│   │   ├── desktop.nix     # X11, i3, picom (desktop machines)
-│   │   └── encryption.nix  # LUKS encryption (wilson)
-│   └── services/
-│       └── default.nix     # Services (placeholder)
-├── hosts/                   # Per-machine configurations
-│   ├── lovelace/
-│   ├── hopper/
-│   ├── wilson/
-│   ├── perlman/
-│   └── greene/
-├── home/                    # Home Manager configuration
-│   └── okt/
-│       ├── default.nix     # User config entry point
-│       ├── programs.nix    # Program configurations
-│       └── services.nix    # User services
-└── README.md               # This file
+flake.nix                    # Entry point; defines all nixosConfigurations
+lib/
+  mkHost.nix                 # Builds a NixOS host + Home Manager
+  mkHome.nix                 # Builds a standalone Home Manager config
+modules/
+  common/                    # Imported by every host (packages, settings, users)
+  features/                  # Opt-in: nvidia, desktop, bluetooth, steam, encryption, vm-guest
+  services/                  # Placeholder for future system services
+hosts/
+  lovelace/                  # Personal desktop
+  hopper/                    # Personal laptop
+  wilson/                    # Work laptop
+  perlman/                   # Home server
+  greene/                    # WSL2 test host
+  hedy/                      # QEMU/KVM VM
+home/okt/                    # Home Manager config (programs, i3, rofi, services)
 ```
 
-## Machine Specifications
+## Flake Inputs
 
-### lovelace (Desktop)
-- **Features**: NVIDIA GPU, Desktop Environment (X11 + i3 + picom)
-- **Default**: Full development environment
-- **Modules**: `common`, `nvidia`, `desktop`
+| Input | Purpose |
+|-------|---------|
+| `nixpkgs` | nixos-unstable channel |
+| `home-manager` | User environment management |
+| `nixos-wsl` | WSL2 support (greene only) |
+| `nix-index-database` | Pre-built `nix-locate` index |
+| `disko` | Disk partitioning (declared but not yet used) |
 
-### hopper (Personal Laptop)
-- **Features**: NVIDIA GPU, Desktop Environment (X11 + i3 + picom)
-- **Default**: Portable development environment
-- **Modules**: `common`, `nvidia`, `desktop`
+## Quick Start
 
-### wilson (Work Laptop)
-- **Features**: LUKS Encryption, Desktop Environment (X11 + i3 + picom), Integrated Graphics
-- **Default**: Encrypted work machine
-- **Modules**: `common`, `encryption`, `desktop`
-- **Note**: Encryption is configured during NixOS installation (standard LUKS setup)
+### Deploy to an existing host
 
-### perlman (Home Server)
-- **Features**: Headless (no X11), SSH access, T480 laptop as server
-- **Default**: Minimal footprint, remote access only
-- **Modules**: `common`, `services` (SSH enabled by default)
-- **Deploy**: 
-  ```bash
-  sudo nixos-rebuild switch --flake .#perlman
-  ```
+```bash
+nixfmt .                                      # format (required before committing)
+nix flake check                               # validate
+sudo nixos-rebuild switch --flake .#<hostname>
+```
 
-### greene (WSL2 NixOS Test Host)
-- **Features**: Headless, native systemd, WSL2 integration, development sandbox
-- **Default**: Safe environment for learning NixOS, testing the flake, and development work
-- **Modules**: `common` (no desktop/GPU needed for headless WSL)
-- **Usage**: Test flake changes, learn NixOS workflows, run builds and development work
-- **Access**: `wsl -d greene` from PowerShell, or through Windows Terminal
-- **File sharing**: Windows files accessible at `/mnt/c/`
+### Test changes safely (greene sandbox)
 
-## Common Tools
+```bash
+nix flake check
+sudo nixos-rebuild dry-run --flake .#greene
+sudo nixos-rebuild switch --flake .#greene
+```
 
-All machines come with these tools pre-installed:
+### Adding a new host
 
-- **Shell**: fish
-- **Editor**: neovim
-- **Terminal**: kitty
-- **Browser**: brave
-- **Git**: git, lazygit
-- **CLI Tools**: ripgrep, fd, exa, zoxide, tmux, curl, wget
+1. Create `hosts/<hostname>/default.nix` and `hardware-configuration.nix`
+2. Import `../../modules/common` plus any feature modules
+3. Set `networking.hostName = "<hostname>"`
+4. Register in `flake.nix` via `lib.mkHost`
+5. `git add` all new files before building
 
-## Home Manager Configuration
+### Setting up greene (WSL2)
 
-Home Manager is integrated as a NixOS module, managed at the system level. The user `okt` configuration is in `home/okt/`.
+```powershell
+# From PowerShell (Admin) — import NixOS-WSL tarball
+wsl --import greene . C:\path\to\nixos-wsl.tar.gz --version 2
+wsl -d greene
+```
 
-### Customizing Programs
+```bash
+# Inside greene
+sudo nixos-rebuild switch --flake .#greene
+```
 
-Edit `home/okt/programs.nix` to customize:
-- Fish shell settings
-- Neovim configuration
-- Kitty terminal settings
-- Git configuration (username, email)
-- Directory navigation (zoxide)
-- Environment loading (direnv)
+## Common Commands
 
-### Adding User Services
+| Task | Command |
+|------|---------|
+| Format | `nixfmt .` |
+| Validate | `nix flake check` |
+| Build (no switch) | `sudo nixos-rebuild build --flake .#<host>` |
+| Deploy | `sudo nixos-rebuild switch --flake .#<host>` |
+| Dry-run | `sudo nixos-rebuild dry-run --flake .#<host>` |
+| Rollback | `sudo nixos-rebuild switch --rollback` |
+| Update deps | `nix flake update && git add flake.lock` |
 
-Add services to `home/okt/services.nix` for user-level services like:
-- SSH agent
-- GPG agent
-- Custom systemd user services
+## Home Manager
 
-## Customizing Per-Machine
+Managed as a NixOS module via `mkHost`. Configuration lives in `home/okt/`:
 
-Each machine can have custom configuration in its `hosts/<hostname>/default.nix`:
+| File | Purpose |
+|------|---------|
+| `default.nix` | Entry point; username, stateVersion, fonts, session vars |
+| `programs.nix` | fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave |
+| `services.nix` | picom, dunst, udiskie |
+| `i3.nix` | Full i3 config — Dracula theme, vim keybindings, wallpaper |
+| `rofi.nix` | Rofi launcher — Dracula theme |
+
+The default wallpaper is `home/okt/solar.png`. Override per host:
 
 ```nix
-# Example: adding machine-specific packages
-{ config, pkgs, ... }:
-
-{
-  imports = [
-    ./hardware-configuration.nix
-    ../../modules/common
-    # ... feature modules ...
-  ];
-
-  networking.hostName = "lovelace";
-
-  # Machine-specific configuration
-  environment.systemPackages = with pkgs; [
-    # Add machine-specific packages here
-  ];
+lib.mkHost {
+  hostname = "lovelace";
+  system = "x86_64-linux";
+  modules = [ ./hosts/lovelace ];
+  wallpaperPath = ../home/okt/custom.png;  # optional
 }
 ```
 
-## Adding LUKS Encryption (wilson)
-
-Wilson (work laptop) supports LUKS encryption. During NixOS installation:
-
-1. Partition your disks
-2. Create LUKS volume:
-   ```bash
-   cryptsetup luksFormat /dev/sda2
-   cryptsetup luksOpen /dev/sda2 enc-pv
-   ```
-3. Format and mount the encrypted partition
-4. Install NixOS normally
-5. Run `nixos-generate-config --root /mnt` to capture encryption settings
-
-The hardware configuration will automatically include LUKS settings.
-
-## Updating Dependencies
-
-Update to the latest versions of inputs:
-
-```bash
-nix flake update
-git add flake.lock
-git commit -m "Update flake dependencies"
-```
-
-## Dry-Run / Testing Changes
-
-Before applying changes to a system:
-
-```bash
-sudo nixos-rebuild dry-run --flake .#<hostname>
-```
-
-This will show you what will change without actually building.
-
-## Rollback
-
-If something goes wrong, rollback to the previous generation:
-
-```bash
-sudo nixos-rebuild switch --rollback
-```
-
-Or select a specific generation:
-
-```bash
-nix-env --list-generations  # List available generations
-sudo nixos-rebuild switch --profile /nix/var/nix/profiles/system --switch-generation 42
-```
-
-## Greene on WSL2 (WSL-Specific Notes)
-
-Greene runs on WSL2 (Windows Subsystem for Linux 2) powered by Hyper-V. This provides a lightweight, reproducible sandbox for learning and testing.
-
-### Access Greene
-
-From **PowerShell**:
-```powershell
-wsl -d greene
-```
-
-From **Windows Terminal**:
-- Select "greene" from the dropdown menu at the top
-
-### File Access
-
-Windows files are accessible from Greene at `/mnt/c/`:
-```bash
-# Access your home directory
-cd /mnt/c/Users/<username>
-
-# Access repository
-cd /mnt/c/path/to/your/nixos
-```
-
-### Updating WSL Itself
-
-If you need to update WSL to a newer version:
-```powershell
-wsl --update
-wsl --shutdown
-wsl -d greene
-```
-
-### Performance Tips
-
-- Greene boots very quickly (~5-10 seconds)
-- Building large Nix packages may be slower than on native hardware (due to virtualization)
-- WSL2 has excellent CPU/memory efficiency compared to full VMs
-
-### Managing Greene
-
-**Shutdown Greene**:
-```powershell
-wsl --terminate greene
-```
-
-**List all WSL instances**:
-```powershell
-wsl -l -v
-```
-
-**Backup Greene** (create a tarball):
-```powershell
-wsl --export greene C:\path\to\greene-backup.tar
-```
-
-**Restore from backup**:
-```powershell
-wsl --import greene-restored C:\path\to\restored\ C:\path\to\greene-backup.tar --version 2
-```
-
-**Delete Greene** (WARNING - destructive):
-```powershell
-wsl --unregister greene
-```
-
-## Future Enhancements
-
-### Adding Secrets (agenix)
-
-When you need to manage secrets (WiFi passwords, SSH keys, etc.), this repository can be extended with agenix:
-
-1. Install agenix in flake inputs
-2. Add `agenix.nixosModules.default` to modules
-3. Create `secrets/secrets.nix` to define secrets
-4. Encrypt secrets with your host public keys
-5. Reference encrypted secrets in configuration
-
-See [agenix documentation](https://github.com/ryantm/agenix) for details.
-
-### Adding More Machines
-
-To add a new machine:
-
-1. Create `hosts/<new-hostname>/default.nix`
-2. Create `hosts/<new-hostname>/hardware-configuration.nix` (empty initially)
-3. Add to `flake.nix` outputs:
-   ```nix
-   <new-hostname> = mkHost "<new-hostname>" [
-     ./hosts/<new-hostname>
-   ];
-   ```
-4. Generate hardware config on the new machine
-5. Deploy with `nixos-rebuild switch --flake .#<new-hostname>`
-
 ## Troubleshooting
 
-### "Path in the repository is not tracked by Git"
-
-Ensure all modified files are added to git:
-```bash
-git add .
-git commit -m "Your message"
-```
-
-### Flake evaluation errors
-
-Check for syntax errors:
-```bash
-nix flake check
-```
-
-### Hardware configuration issues
-
-If hardware detection doesn't work correctly:
-```bash
-sudo nixos-generate-config --root /  # In running system
-# Or
-nixos-generate-config --root /mnt    # During installation
-```
-
-Then update the relevant `hardware-configuration.nix` file.
-
-## Contributing
-
-When making changes:
-
-1. Test in greene (VM test host) first
-2. Review changes with `nixos-rebuild dry-run`
-3. Commit logical groups of changes
-4. Push to your git remote
-
-## References
-
-- [NixOS Manual](https://nixos.org/manual/nixos/unstable/)
-- [Home Manager Manual](https://nix-community.github.io/home-manager/)
-- [Nix Flakes Documentation](https://wiki.nixos.org/wiki/Flakes)
-- [agenix - Secrets Management](https://github.com/ryantm/agenix)
-
-## License
-
-This configuration is provided as-is. Customize as needed for your setup.
+| Error | Fix |
+|-------|-----|
+| "path not tracked by git" | `git add <file>` before rebuilding |
+| Evaluation / infinite recursion | `nix flake check` to identify the problem |
+| Wrong hardware config | Re-run `sudo nixos-generate-config` and copy to `hosts/<hostname>/` |
