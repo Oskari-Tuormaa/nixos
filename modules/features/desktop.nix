@@ -46,6 +46,7 @@
     # Assorted GUI programs
     spotify
     discord
+    teams-for-linux
 
     # Misc
     feh
