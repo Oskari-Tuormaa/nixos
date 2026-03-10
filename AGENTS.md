@@ -10,7 +10,7 @@ A flakes-based NixOS configuration managing 6 machines with shared modules and p
 flake.nix                    # Entry point; defines all nixosConfigurations
 lib/                         # mkHost and mkHome helpers
 modules/common/              # Imported by every host (packages, settings, users)
-modules/features/            # Opt-in features (nvidia, desktop, bluetooth, steam, vm-guest, encryption)
+modules/features/            # Opt-in features (nvidia, desktop, bluetooth, steam, vm-guest, encryption, stlink)
 modules/services/            # Placeholder for future system services
 hosts/                       # Per-machine configs + hardware-configuration.nix
 home/okt/                    # Home Manager config (programs, services, i3, rofi)
@@ -99,7 +99,7 @@ lib.mkHome {
 |------|---------|
 | `packages.nix` | Shared CLI tools: fish, neovim, git, lazygit, ripgrep, fd, eza, fzf, bat, tmux, zoxide, opencode, nixfmt, etc. |
 | `settings.nix` | Timezone, locale, networkmanager, nix flakes, nix-ld, `stateVersion = "24.05"` |
-| `users.nix` | Creates user `okt` with fish shell and wheel group |
+| `users.nix` | Creates user `okt` with fish shell, wheel and dialout groups |
 
 ### `modules/features/` — opt-in per host
 | File | Purpose | Used by |
@@ -109,6 +109,7 @@ lib.mkHome {
 | `bluetooth.nix` | Bluetooth + blueman applet | lovelace |
 | `steam.nix` | Steam with firewall rules | lovelace |
 | `encryption.nix` | Placeholder — LUKS config lives in `hardware-configuration.nix` | wilson |
+| `stlink.nix` | Udev rules for STMicroelectronics USB devices (ST-Link, STM32, CDC ACM serial) | lovelace, wilson |
 | `vm-guest.nix` | VirtualBox guest additions | (unused — hedy uses native QEMU support) |
 
 ## Structural Conventions

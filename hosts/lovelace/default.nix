@@ -9,6 +9,7 @@
     ../../modules/features/desktop.nix
     ../../modules/features/bluetooth.nix
     ../../modules/features/steam.nix
+    ../../modules/features/stlink.nix
   ];
 
   networking.hostName = "lovelace";
