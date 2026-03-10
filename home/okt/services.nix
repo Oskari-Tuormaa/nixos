@@ -5,6 +5,7 @@
   # Picom compositor - shadows enabled, no blur, no animations
   services.picom = {
     enable = true;
+    vSync = true;
     shadow = true;
     shadowOffsets = [
       (-18)
