@@ -2,6 +2,7 @@
 result
 result-*
 *.drv
+*.qcow2
 
 # flake.lock (initial state - you may want to commit this after first generation)
 # flake.lock
