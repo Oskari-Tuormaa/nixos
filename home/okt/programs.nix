@@ -59,6 +59,9 @@
       font_size = 12;
       window_padding_width = 6;
     };
+    keybindings = {
+      "ctrl+alt+enter" = "launch --type=os-window --cwd=current";
+    };
   };
 
   # Git configuration
