@@ -40,6 +40,7 @@
     # Nix utilities
     any-nix-shell # Makes nix-shell use your current shell (fish in our case)
     nixfmt # Formatter for Nix code
+    nix-ld
 
     # AI coding assistant
     opencode
