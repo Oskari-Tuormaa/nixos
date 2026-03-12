@@ -25,6 +25,7 @@
     zoxide
     fzf # Fuzzy finder for command line
     bat
+    ncdu
 
     # Utilities
     curl
