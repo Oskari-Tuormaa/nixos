@@ -34,10 +34,6 @@
   # Don't require a password for sudo in WSL
   security.sudo.wheelNeedsPassword = false;
 
-  # Locale
-  time.timeZone = "UTC";
-  i18n.defaultLocale = "en_US.UTF-8";
-
   # After installing, replace the above with actual output from:
   # sudo nixos-generate-config --root / > /tmp/hw.nix
 }
