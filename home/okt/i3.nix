@@ -148,7 +148,7 @@ in
           # Screenshot with flameshot
           "${modifier}+Shift+s" = "exec flameshot gui";
           # Open browser
-          "${modifier}+Shift+f" = "exec brave";
+          "${modifier}+Shift+f" = "exec brave --enable-gpu-compositing";
           # Swap to the previously focused workspace
           "${modifier}+Tab" = "workspace back_and_forth";
         };

@@ -132,4 +132,24 @@
       "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
     ];
   };
+
+  # Override Brave desktop entry to add GPU compositing flag
+  xdg.desktopEntries.brave = {
+    name = "Brave";
+    exec = "brave --enable-gpu-compositing %U";
+    categories = [
+      "Network"
+      "WebBrowser"
+    ];
+    mimeType = [
+      "text/html"
+      "text/xml"
+      "application/xhtml+xml"
+      "application/x-www-browser"
+      "x-scheme-handler/http"
+      "x-scheme-handler/https"
+    ];
+    icon = "brave-browser";
+    type = "Application";
+  };
 }
