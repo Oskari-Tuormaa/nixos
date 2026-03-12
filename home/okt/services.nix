@@ -27,4 +27,16 @@
   services.dunst.enable = true;
 
   services.udiskie.enable = true;
+
+  # Redshift - adjust color temperature based on time of day
+  services.redshift = {
+    enable = true;
+    # Use geolocation with fallback to manual coordinates
+    provider = "geoclue2";
+    latitude = 56.1629;
+    longitude = 10.2039;
+    # Color temperatures
+    temperature.day = 6500;
+    temperature.night = 2400;
+  };
 }

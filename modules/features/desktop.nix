@@ -30,6 +30,7 @@
     i3status
     picom
     rofi
+    redshift
 
     # Screenshots
     flameshot
