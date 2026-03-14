@@ -11,6 +11,7 @@
   imports = [
     ./programs.nix
     ./services.nix
+    ./ssh.nix
     ./steam.nix
   ];
 
