@@ -7,6 +7,7 @@
     ../../modules/common
     ../../modules/features/nvidia.nix
     ../../modules/features/desktop.nix
+    ../../modules/features/desktop-i3.nix
     ../../modules/features/bluetooth.nix
     ../../modules/features/steam.nix
     ../../modules/features/stlink.nix

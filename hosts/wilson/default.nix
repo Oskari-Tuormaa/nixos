@@ -7,6 +7,7 @@
     ../../modules/common
     ../../modules/features/encryption.nix
     ../../modules/features/desktop.nix
+    ../../modules/features/desktop-i3.nix
     ../../modules/features/stlink.nix
   ];
 

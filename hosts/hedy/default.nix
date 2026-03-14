@@ -7,6 +7,7 @@
     ./hardware-configuration.nix
     ../../modules/common
     ../../modules/features/desktop.nix
+    ../../modules/features/desktop-i3.nix
   ];
 
   networking.hostName = "hedy";

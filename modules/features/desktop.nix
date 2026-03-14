@@ -1,18 +1,7 @@
-# Desktop environment (X11, i3, picom) for lovelace, hopper, wilson, greene
+# Common desktop environment configuration for lovelace, hopper, wilson, greene
 { config, pkgs, ... }:
 
 {
-  services.xserver = {
-    enable = true;
-    windowManager.i3.enable = true;
-    autoRepeatDelay = 250;
-    autoRepeatInterval = 25;
-    xkb = {
-      layout = "us,dk";
-      options = "grp:alt_space_toggle,caps:swapescape";
-    };
-  };
-
   services.displayManager.ly.enable = true;
 
   services.pipewire = {
@@ -25,13 +14,6 @@
   services.udisks2.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # Window manager
-    i3
-    i3status
-    picom
-    rofi
-    redshift
-
     # Screenshots
     flameshot
 
