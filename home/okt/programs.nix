@@ -1,6 +1,7 @@
 # Program configurations for user 'okt'
 {
   config,
+  osConfig,
   pkgs,
   lib,
   wallpaperPath,
@@ -8,7 +9,7 @@
 }:
 
 {
-  imports = [
+  imports = lib.optionals osConfig.services.xserver.enable [
     ./i3.nix
     ./rofi.nix
   ];
@@ -134,7 +135,8 @@
   };
 
   # Override Brave desktop entry to add GPU compositing flag
-  xdg.desktopEntries.brave = {
+  # Only create desktop entry on X11 systems
+  xdg.desktopEntries.brave = lib.mkIf osConfig.services.xserver.enable {
     name = "Brave";
     exec = "brave --enable-gpu-compositing %U";
     categories = [

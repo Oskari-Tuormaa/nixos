@@ -1,9 +1,16 @@
 # User services for 'okt'
-{ config, pkgs, ... }:
+{
+  config,
+  osConfig,
+  pkgs,
+  lib,
+  ...
+}:
 
 {
   # Picom compositor - shadows enabled, no blur, no animations
-  services.picom = {
+  # Only enable on systems with X11
+  services.picom = lib.mkIf osConfig.services.xserver.enable {
     enable = true;
     vSync = true;
     shadow = true;
@@ -24,12 +31,15 @@
     };
   };
 
-  services.dunst.enable = true;
+  # Dunst notification daemon - only on X11 systems
+  services.dunst.enable = osConfig.services.xserver.enable;
 
+  # Udiskie USB automounting - works on any system
   services.udiskie.enable = true;
 
   # Redshift - adjust color temperature based on time of day
-  services.redshift = {
+  # Only enable on systems with X11
+  services.redshift = lib.mkIf osConfig.services.xserver.enable {
     enable = true;
     # Use geolocation with fallback to manual coordinates
     provider = "geoclue2";
