@@ -17,7 +17,6 @@
     i3
     i3status
     picom
-    rofi
     redshift
   ];
 }

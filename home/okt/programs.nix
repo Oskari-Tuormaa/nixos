@@ -9,10 +9,6 @@
 }:
 
 {
-  imports = lib.optionals osConfig.services.xserver.enable [
-    ./i3.nix
-    ./rofi.nix
-  ];
   # Fish shell - configured in home-manager
   programs.fish = {
     enable = true;

@@ -2,6 +2,7 @@
 # This configuration is shared across all machines
 {
   config,
+  osConfig,
   pkgs,
   lib,
   ...
@@ -13,6 +14,16 @@
     ./services.nix
     ./ssh.nix
     ./steam.nix
+  ]
+  ++ lib.optionals osConfig.services.xserver.enable [
+    # Import xserver stuff
+    ./i3.nix
+    ./rofi.nix
+  ]
+  ++ lib.optionals osConfig.programs.hyprland.enable [
+    # Import wayland stuff
+    ./hyprland.nix
+    ./rofi.nix
   ];
 
   # Home Manager configuration

@@ -140,6 +140,9 @@ in
           "${modifier}+Shift+j" = "move down";
           "${modifier}+Shift+k" = "move up";
           "${modifier}+Shift+l" = "move right";
+          # Split controls
+          "${modifier}+n" = "split h";
+          "${modifier}+m" = "split v";
           # Resize mode with Mod4+r, then hjkl to resize
           "${modifier}+r" = "mode resize";
           # Replace default dmenu (Mod4+d) with rofi on Mod4+p

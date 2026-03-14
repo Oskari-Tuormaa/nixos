@@ -17,6 +17,9 @@
     # Screenshots
     flameshot
 
+    # Application runner
+    rofi
+
     # Terminal
     kitty
 
