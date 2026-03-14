@@ -11,6 +11,7 @@
   imports = [
     ./programs.nix
     ./services.nix
+    ./steam.nix
   ];
 
   # Home Manager configuration

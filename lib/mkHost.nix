@@ -12,6 +12,7 @@
   hostname,
   system,
   modules,
+  cpuCoreCount,
   wallpaperPath ? ../home/okt/solar.png,
   ...
 }@args:
@@ -36,7 +37,7 @@ inputs.nixpkgs.lib.nixosSystem {
         useGlobalPkgs = true;
         useUserPackages = true;
         users.okt = import ../home/okt;
-        extraSpecialArgs = { inherit inputs wallpaperPath; };
+        extraSpecialArgs = { inherit inputs wallpaperPath cpuCoreCount; };
       };
     }
   ];

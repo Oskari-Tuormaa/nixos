@@ -66,34 +66,34 @@
         # Lovelace: Personal Desktop (NVIDIA GPU + Desktop Environment)
         lovelace = mkHost "lovelace" [
           ./hosts/lovelace
-        ] { };
+        ] { cpuCoreCount = 28; };
 
         # Hopper: Personal Laptop (NVIDIA GPU + Desktop Environment)
         hopper = mkHost "hopper" [
           ./hosts/hopper
-        ] { };
+        ] { cpuCoreCount = 8; };
 
         # Wilson: Work Laptop (Encrypted + Desktop Environment)
         # TODO: Replace with a wilson-specific wallpaper when available
         wilson = mkHost "wilson" [
           ./hosts/wilson
-        ] { };
+        ] { cpuCoreCount = 8; };
 
         # Perlman: Home Server (Headless)
         perlman = mkHost "perlman" [
           ./hosts/perlman
-        ] { };
+        ] { cpuCoreCount = 8; };
 
         # Greene: VM Test Host (WSL2 NixOS)
         greene = mkHost "greene" [
           nixos-wsl.nixosModules.default
           ./hosts/greene
-        ] { };
+        ] { cpuCoreCount = 8; };
 
         # Hedy: QEMU/KVM Test Host (Linux KVM)
         hedy = mkHost "hedy" [
           ./hosts/hedy
-        ] { };
+        ] { cpuCoreCount = 8; };
       };
 
       # Optional: Home Manager configurations for standalone use
