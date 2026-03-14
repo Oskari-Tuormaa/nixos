@@ -119,6 +119,7 @@
         buildInputs = with pkgs; [
           nixfmt
           git
+          just
         ];
       };
     };
