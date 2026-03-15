@@ -15,8 +15,13 @@
         addKeysToAgent = "yes";
         identityFile = [
           "~/.ssh/id_rsa"
-          "~/.ssh/id_github"
         ];
+        identitiesOnly = true;
+      };
+      "github.com" = {
+        hostname = "github.com";
+        user = "git";
+        identityFile = [ "~/.ssh/id_github" ];
         identitiesOnly = true;
       };
       "tuormaa.net" = {
