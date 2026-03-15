@@ -32,6 +32,7 @@
       };
       "tuormaa.net" = {
         proxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h";
+        identityFile = [ "~/.ssh/id_perlman" ];
       };
     };
   };

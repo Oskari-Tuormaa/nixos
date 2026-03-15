@@ -30,4 +30,7 @@ in
 
   # Mjoelner Azure SSH key
   "mjolner-dev-ssh-key.age".publicKeys = allHosts;
+
+  # SSH key for accessing Perlman server
+  "perlman-ssh-key.age".publicKeys = allHosts;
 }

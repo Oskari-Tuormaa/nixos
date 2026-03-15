@@ -18,5 +18,9 @@
       source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.mjolner-dev-ssh-key.path;
       executable = false;
     };
+    ".ssh/id_perlman" = {
+      source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.perlman-ssh-key.path;
+      executable = false;
+    };
   };
 }
