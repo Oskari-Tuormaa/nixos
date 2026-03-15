@@ -30,6 +30,7 @@
       abbr sv sudoedit
       abbr lg lazygit
       abbr rm trash
+      abbr z zathura
 
       # Useful aliases
       alias ls exa

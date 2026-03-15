@@ -26,6 +26,9 @@
     # File browser
     nemo
 
+    # PDF Reader
+    zathura
+
     # Audio control interface
     pavucontrol
 
