@@ -11,6 +11,7 @@
 {
   imports = [
     ./programs.nix
+    ./secrets.nix
     ./services.nix
     ./ssh.nix
     ./steam.nix

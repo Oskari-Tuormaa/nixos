@@ -13,7 +13,10 @@
     matchBlocks = {
       "*" = {
         addKeysToAgent = "yes";
-        identityFile = "~/.ssh/id_rsa";
+        identityFile = [
+          "~/.ssh/id_rsa"
+          "~/.ssh/id_github"
+        ];
         identitiesOnly = true;
       };
       "tuormaa.net" = {
