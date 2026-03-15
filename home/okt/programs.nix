@@ -16,6 +16,9 @@
       # Fish shell configuration
       set fish_greeting
 
+      # Environment variables
+      set -x EDITOR nvim
+
       # Enable VI key bindings
       fish_vi_key_bindings
 
