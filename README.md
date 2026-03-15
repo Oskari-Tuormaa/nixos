@@ -1,132 +1,118 @@
 # NixOS Configuration
 
-A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
+A flakes-based NixOS configuration managing 6 machines with shared modules, feature flags, and per-host customization.
 
 ## Hosts
 
-| Host | Role | Notes |
-|------|------|-------|
-| **lovelace** | Personal desktop | NVIDIA, i3, bluetooth, Steam |
-| **hopper** | Personal laptop | NVIDIA, i3 — hardware config placeholder |
-| **wilson** | Work laptop | LUKS encryption, i3, integrated GPU |
-| **perlman** | Home server | Headless, SSH — hardware config placeholder |
-| **greene** | WSL2 sandbox | Headless, for testing flake changes |
-| **hedy** | QEMU/KVM VM | i3, virtio GPU, SPICE agent |
+| Host | Role | CPU | GPU | Desktop | Modules |
+|------|------|-----|-----|---------|---------|
+| **lovelace** | Personal desktop | 28 cores | NVIDIA | X11 + i3 | nvidia, desktop, i3, bluetooth, steam, stlink |
+| **hopper** | Personal laptop | 8 cores | Integrated | X11 + i3 | desktop, i3 (200 DPI) |
+| **wilson** | Work laptop | 8 cores | Integrated | X11 + i3 | encryption, desktop, i3, stlink |
+| **perlman** | Home server | 8 cores | — | Headless | — |
+| **greene** | WSL2 sandbox | 8 cores | — | Headless | nixos-wsl (testing only) |
+| **hedy** | QEMU/KVM VM | 8 cores | Virtio | X11 + i3 | desktop, i3, SPICE agent |
 
-All machines share user `okt` with fish, neovim, git, lazygit, ripgrep, fd, eza, zoxide, fzf, bat, tmux, opencode, and nixfmt.
+All machines share user `okt` with: fish, neovim, git, lazygit, ripgrep, fd, eza, zoxide, fzf, bat, tmux, nixfmt, opencode.
 
 ## Repository Structure
 
 ```
-flake.nix                    # Entry point; defines all nixosConfigurations
+flake.nix                    # Entry point; defines all 6 nixosConfigurations
 lib/
-  mkHost.nix                 # Builds a NixOS host + Home Manager
-  mkHome.nix                 # Builds a standalone Home Manager config
+  mkHost.nix                 # NixOS host + Home Manager builder
+  mkHome.nix                 # Standalone Home Manager builder
 modules/
-  common/                    # Imported by every host (packages, settings, users)
-  features/                  # Opt-in: nvidia, desktop, desktop-i3, desktop-hyprland, bluetooth, steam, encryption, stlink, vm-guest
-  services/                  # Placeholder for future system services
+  common/                    # Always imported by every host (agenix, packages, settings, users)
+  features/                  # Opt-in per-host: nvidia, desktop, desktop-i3, desktop-hyprland,
+                             #                   bluetooth, steam, stlink, encryption, vm-guest
+  services/                  # Reserved for future services
 hosts/
-  lovelace/                  # Personal desktop
-  hopper/                    # Personal laptop
-  wilson/                    # Work laptop
-  perlman/                   # Home server
-  greene/                    # WSL2 test host
-  hedy/                      # QEMU/KVM VM
-home/okt/                    # Home Manager config (programs, i3, hyprland, rofi, ssh, steam, services)
+  lovelace/, hopper/, wilson/, perlman/, greene/, hedy/  # Per-host config + hardware
+home/okt/                    # Shared Home Manager config (programs, ssh, i3, hyprland, rofi,
+                             #                             services, steam, secrets)
+secrets/
+  secrets.nix                # Define which SSH keys decrypt each secret
+  *.age, *.pub               # Encrypted SSH keys + public keys
 ```
 
 ## Flake Inputs
 
 | Input | Purpose |
 |-------|---------|
-| `nixpkgs` | nixos-unstable channel |
-| `home-manager` | User environment management |
-| `nixos-wsl` | WSL2 support (greene only) |
-| `nix-index-database` | Pre-built `nix-locate` index |
-| `disko` | Disk partitioning (declared but not yet used) |
+| `nixpkgs` | nixos-unstable (rolling release) |
+| `home-manager` | Declarative user environment |
+| `agenix` | Encrypted SSH secrets (age encryption) |
+| `nixos-wsl` | WSL2 integration (greene) |
+| `nix-index-database` | Pre-built `nix-locate` database |
 
 ## Quick Start
 
-### Deploy to an existing host
+### Deploy to a host
 
 ```bash
 nixfmt .                                      # format (required before committing)
-nix flake check                               # validate
+nix flake check                               # validate flake
 sudo nixos-rebuild switch --flake .#<hostname>
 ```
 
-### Test changes safely (greene sandbox)
+### Test safely first (greene sandbox)
 
 ```bash
+# Always test in greene before deploying to production
 nix flake check
 sudo nixos-rebuild dry-run --flake .#greene
 sudo nixos-rebuild switch --flake .#greene
 ```
 
-### Adding a new host
-
-1. Create `hosts/<hostname>/default.nix` and `hardware-configuration.nix`
-2. Import `../../modules/common` plus any feature modules
-3. Set `networking.hostName = "<hostname>"`
-4. Register in `flake.nix` via `lib.mkHost`
-5. `git add` all new files before building
-
-### Setting up greene (WSL2)
-
-```powershell
-# From PowerShell (Admin) — import NixOS-WSL tarball
-wsl --import greene . C:\path\to\nixos-wsl.tar.gz --version 2
-wsl -d greene
-```
+### Rollback if needed
 
 ```bash
-# Inside greene
-sudo nixos-rebuild switch --flake .#greene
+sudo nixos-rebuild switch --rollback
 ```
 
-## Common Commands
+### Update dependencies
 
-| Task | Command |
-|------|---------|
-| Format | `nixfmt .` |
-| Validate | `nix flake check` |
-| Build (no switch) | `sudo nixos-rebuild build --flake .#<host>` |
-| Deploy | `sudo nixos-rebuild switch --flake .#<host>` |
-| Dry-run | `sudo nixos-rebuild dry-run --flake .#<host>` |
-| Rollback | `sudo nixos-rebuild switch --rollback` |
-| Update deps | `nix flake update && git add flake.lock` |
+```bash
+nix flake update && git add flake.lock
+```
 
 ## Home Manager
 
-Managed as a NixOS module via `mkHost`. Configuration lives in `home/okt/`:
+Shared across all 6 hosts. Configuration in `home/okt/`:
 
 | File | Purpose |
 |------|---------|
-| `default.nix` | Entry point; username, stateVersion, fonts, session vars |
-| `programs.nix` | fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave; imports i3/hyprland configs |
-| `services.nix` | picom, dunst, udiskie |
-| `i3.nix` | Full i3 config — Dracula theme, vim keybindings, wallpaper |
-| `hyprland.nix` | Hyprland config — Dracula theme, vim keybindings, wallpaper |
-| `rofi.nix` | Rofi launcher — Dracula theme |
-| `ssh.nix` | SSH configuration with Cloudflare tunnel support |
-| `steam.nix` | Steam config with shader compilation threading |
+| `programs.nix` | fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave, opencode |
+| `services.nix` | picom (X11), dunst, udiskie, redshift |
+| `i3.nix` | i3 config — Dracula theme, vim keybindings (hjkl), workspaces |
+| `hyprland.nix` | Hyprland config — Wayland alternative to i3 (WIP) |
+| `rofi.nix` | Application launcher — Dracula theme, icons, history |
+| `ssh.nix` | SSH config — GitHub, Azure, Cloudflare tunnel, 3 SSH keys |
+| `steam.nix` | Steam shader compilation threading (CPU core-aware) |
+| `secrets.nix` | Symlink decrypted agenix SSH keys to ~/.ssh |
 
-The default wallpaper is `home/okt/solar.png`. Override per host:
+**Customization:**
+- Default wallpaper: `home/okt/solar.png` (override per-host via `wallpaperPath`)
+- Theme: Dracula (dark colors, consistent across all programs)
+- Keybindings: Vim-style (hjkl for navigation in i3/Hyprland)
 
-```nix
-lib.mkHost {
-  hostname = "lovelace";
-  system = "x86_64-linux";
-  modules = [ ./hosts/lovelace ];
-  wallpaperPath = ../home/okt/custom.png;  # optional
-}
-```
+## Secrets Management (Agenix)
+
+SSH keys are encrypted with agenix and decrypted using host SSH keys. See `SECRETS.md` for details.
+
+**Three SSH keys available:**
+- `github-ssh-key` → GitHub (git operations)
+- `mjolnerdev-ssh-key` → Azure/development
+- `perlman-ssh-key` → Internal server
+
+**Bootstrap:** Secrets are skipped on fresh installs (hostname `"nixos"`). After first boot, SSH host keys are generated and secrets become available.
 
 ## Troubleshooting
 
 | Error | Fix |
 |-------|-----|
 | "path not tracked by git" | `git add <file>` before rebuilding |
-| Evaluation / infinite recursion | `nix flake check` to identify the problem |
-| Wrong hardware config | Re-run `sudo nixos-generate-config` and copy to `hosts/<hostname>/` |
+| Evaluation / infinite recursion | Run `nix flake check` to diagnose |
+| "no identity matched any of the recipients" | Agenix secret decryption failed — see SECRETS.md |
+| Secrets not available | Check hostname != "nixos" (bootstrap detection) |
