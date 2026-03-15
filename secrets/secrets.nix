@@ -22,6 +22,9 @@ let
 
 in
 {
-  # GitHub SSH key - accessible from all hosts and personal machine for editing
+  # GitHub SSH key
   "github-ssh-key.age".publicKeys = allHosts;
+
+  # Mjoelner Azure SSH key
+  "mjolner-dev-ssh-key.age".publicKeys = allHosts;
 }

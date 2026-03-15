@@ -26,6 +26,13 @@
       mode = "0600";
       path = "/run/secrets/github-ssh-key";
     };
+    mjolner-dev-ssh-key = {
+      file = ../../secrets/mjolner-dev-ssh-key.age;
+      owner = "okt";
+      group = "users";
+      mode = "0600";
+      path = "/run/secrets/mjolner-dev-ssh-key";
+    };
   };
 
   # Use SSH host key for decryption during nixos-rebuild

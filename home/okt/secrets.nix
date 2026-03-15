@@ -14,5 +14,9 @@
       source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.github-ssh-key.path;
       executable = false;
     };
+    ".ssh/id_mjolner_dev" = {
+      source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.mjolner-dev-ssh-key.path;
+      executable = false;
+    };
   };
 }
