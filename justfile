@@ -7,6 +7,9 @@ clean:
     -[ -n "$(find -name '*.qcow2')" ] && trash *.qcow2
     -[ -e result ] && unlink result
 
+nix-clean:
+    sudo nix-collect-garbage -d
+
 build hostname=current_hostname:
     sudo nixos-rebuild switch --flake .#{{hostname}}
 
