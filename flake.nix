@@ -9,11 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    disko = {
-      url = "github:nix-community/disko";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -30,7 +25,6 @@
       self,
       nixpkgs,
       home-manager,
-      disko,
       nixos-wsl,
       nix-index-database,
       ...
@@ -94,23 +88,6 @@
         hedy = mkHost "hedy" [
           ./hosts/hedy
         ] { cpuCoreCount = 8; };
-      };
-
-      # Optional: Home Manager configurations for standalone use
-      homeConfigurations = {
-        "okt@lovelace" = lib.mkHome {
-          username = "okt";
-          homeDirectory = "/home/okt";
-          inherit system;
-        };
-      };
-
-      # Flake metadata for commands
-      apps.${system} = {
-        update-flake = {
-          type = "app";
-          program = "${nixpkgs.legacyPackages.${system}.bash}/bin/bash -c 'nix flake update'";
-        };
       };
 
       # Development environment
