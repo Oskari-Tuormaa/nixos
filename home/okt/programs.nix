@@ -150,4 +150,11 @@
     icon = "brave-browser";
     type = "Application";
   };
+
+  programs.opencode = {
+    enable = true;
+    settings = {
+      theme = "dracula";
+    };
+  };
 }
