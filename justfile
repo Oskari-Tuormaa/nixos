@@ -4,8 +4,8 @@ check:
     nix flake check
 
 clean:
-    if [ -n ./*.qcow2 ]; then trash *.qcow2; fi
-    if [ -e ./result ]; then unlink result; fi
+    -[ -n "$(find -name '*.qcow2')" ] && trash *.qcow2
+    -[ -e result ] && unlink result
 
 build hostname=current_hostname:
     sudo nixos-rebuild switch --flake .#{{hostname}}
