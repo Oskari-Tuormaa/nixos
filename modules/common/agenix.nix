@@ -33,6 +33,13 @@
       mode = "0600";
       path = "/run/secrets/mjolner-dev-ssh-key";
     };
+    perlman-ssh-key = {
+      file = ../../secrets/perlman-ssh-key.age;
+      owner = "okt";
+      group = "users";
+      mode = "0600";
+      path = "/run/secrets/perlman-ssh-key";
+    };
   };
 
   # Use SSH host key for decryption during nixos-rebuild
