@@ -27,7 +27,7 @@
       "ssh.dev.azure.com" = {
         hostname = "ssh.dev.azure.com";
         user = "git";
-        identityFile = [ "~/.ssh/id_mjolner_dev" ];
+        identityFile = [ "~/.ssh/id_mjolnerdev" ];
         identitiesOnly = true;
       };
       "tuormaa.net" = {

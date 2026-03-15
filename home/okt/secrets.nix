@@ -6,21 +6,25 @@
   lib,
   ...
 }:
+let
+  SSHKeys = [
+    "github"
+    "mjolnerdev"
+    "perlman"
+  ];
 
+  SSHKeySymlinks = builtins.listToAttrs (
+    map (key_name: {
+      name = ".ssh/id_${key_name}";
+      value = {
+        source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets."${key_name}-ssh-key".path;
+        executable = false;
+      };
+    }) SSHKeys
+  );
+
+in
 {
   # Only configure if agenix secrets are available (not on fresh nixos installs)
-  home.file = lib.mkIf (osConfig.networking.hostName != "nixos") {
-    ".ssh/id_github" = {
-      source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.github-ssh-key.path;
-      executable = false;
-    };
-    ".ssh/id_mjolner_dev" = {
-      source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.mjolner-dev-ssh-key.path;
-      executable = false;
-    };
-    ".ssh/id_perlman" = {
-      source = config.lib.file.mkOutOfStoreSymlink osConfig.age.secrets.perlman-ssh-key.path;
-      executable = false;
-    };
-  };
+  home.file = lib.mkIf (osConfig.networking.hostName != "nixos") SSHKeySymlinks;
 }
