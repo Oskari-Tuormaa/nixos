@@ -105,7 +105,9 @@ lib.mkHome {
 | File | Purpose | Used by |
 |------|---------|---------|
 | `nvidia.nix` | NVIDIA driver + modesetting | lovelace, hopper |
-| `desktop.nix` | X11, i3, ly DM, pipewire, rofi, kitty, Discord, Spotify, etc. | lovelace, hopper, wilson, hedy |
+| `desktop.nix` | Common desktop config: ly DM, pipewire, udisks2, flameshot, rofi, kitty, nemo, pavucontrol | lovelace, hopper, wilson, hedy |
+| `desktop-i3.nix` | X11 + i3 window manager with US/Danish keyboard layout | lovelace, hopper, wilson, hedy |
+| `desktop-hyprland.nix` | Wayland + Hyprland window manager | (optional alternative to i3) |
 | `bluetooth.nix` | Bluetooth + blueman applet | lovelace |
 | `steam.nix` | Steam with firewall rules | lovelace |
 | `encryption.nix` | Placeholder — LUKS config lives in `hardware-configuration.nix` | wilson |
@@ -122,10 +124,13 @@ lib.mkHome {
 
 ### Home Manager (`home/okt/`)
 - `default.nix` — entry point; username, stateVersion, session vars, fonts
-- `programs.nix` — fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave; imports `i3.nix` and `rofi.nix`
+- `programs.nix` — fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave; imports `i3.nix`, `hyprland.nix`, and `rofi.nix`
 - `services.nix` — picom, dunst, udiskie
 - `i3.nix` — full i3 config (Dracula theme, vim keybindings, wallpaper via `wallpaperPath`)
+- `hyprland.nix` — Hyprland window manager config (Dracula theme, vim keybindings, wallpaper via `wallpaperPath`)
 - `rofi.nix` — rofi launcher with Dracula theme
+- `ssh.nix` — SSH configuration with Cloudflare tunnel support
+- `steam.nix` — Steam configuration with shader compilation threading based on CPU core count
 - Never set `nixpkgs.config` in Home Manager modules when `useGlobalPkgs = true`
 
 ### Configuration Placement

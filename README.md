@@ -24,7 +24,7 @@ lib/
   mkHome.nix                 # Builds a standalone Home Manager config
 modules/
   common/                    # Imported by every host (packages, settings, users)
-  features/                  # Opt-in: nvidia, desktop, bluetooth, steam, encryption, vm-guest
+  features/                  # Opt-in: nvidia, desktop, desktop-i3, desktop-hyprland, bluetooth, steam, encryption, stlink, vm-guest
   services/                  # Placeholder for future system services
 hosts/
   lovelace/                  # Personal desktop
@@ -33,7 +33,7 @@ hosts/
   perlman/                   # Home server
   greene/                    # WSL2 test host
   hedy/                      # QEMU/KVM VM
-home/okt/                    # Home Manager config (programs, i3, rofi, services)
+home/okt/                    # Home Manager config (programs, i3, hyprland, rofi, ssh, steam, services)
 ```
 
 ## Flake Inputs
@@ -104,10 +104,13 @@ Managed as a NixOS module via `mkHost`. Configuration lives in `home/okt/`:
 | File | Purpose |
 |------|---------|
 | `default.nix` | Entry point; username, stateVersion, fonts, session vars |
-| `programs.nix` | fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave |
+| `programs.nix` | fish, neovim, kitty, git, zoxide, direnv, fzf, starship, brave; imports i3/hyprland configs |
 | `services.nix` | picom, dunst, udiskie |
 | `i3.nix` | Full i3 config — Dracula theme, vim keybindings, wallpaper |
+| `hyprland.nix` | Hyprland config — Dracula theme, vim keybindings, wallpaper |
 | `rofi.nix` | Rofi launcher — Dracula theme |
+| `ssh.nix` | SSH configuration with Cloudflare tunnel support |
+| `steam.nix` | Steam config with shader compilation threading |
 
 The default wallpaper is `home/okt/solar.png`. Override per host:
 
