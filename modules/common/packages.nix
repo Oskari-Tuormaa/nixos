@@ -14,6 +14,12 @@
     nodejs_24
     imagemagick
 
+    # Neovim language servers
+    clang-tools
+    cmake-language-server
+    nixd
+    lua-language-server
+
     # Git and version control
     git
     lazygit
@@ -26,6 +32,7 @@
     fzf # Fuzzy finder for command line
     bat
     ncdu
+    bottom
 
     # Utilities
     curl
