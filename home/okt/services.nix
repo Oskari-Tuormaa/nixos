@@ -42,11 +42,10 @@
   services.redshift = lib.mkIf osConfig.services.xserver.enable {
     enable = true;
     # Use geolocation with fallback to manual coordinates
-    provider = "geoclue2";
     latitude = 56.1629;
     longitude = 10.2039;
     # Color temperatures
     temperature.day = 6500;
-    temperature.night = 2400;
+    temperature.night = 2200;
   };
 }
