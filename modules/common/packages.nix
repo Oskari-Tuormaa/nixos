@@ -21,6 +21,11 @@
     lua-language-server
     pyright
 
+    # Neovim formatters
+    nixfmt
+    black
+    clang-tools
+
     # Git and version control
     git
     lazygit
@@ -49,7 +54,6 @@
 
     # Nix utilities
     any-nix-shell # Makes nix-shell use your current shell (fish in our case)
-    nixfmt # Formatter for Nix code
     nix-ld
 
     # AI coding assistant
