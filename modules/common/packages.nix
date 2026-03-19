@@ -19,6 +19,7 @@
     cmake-language-server
     nixd
     lua-language-server
+    pyright
 
     # Git and version control
     git
