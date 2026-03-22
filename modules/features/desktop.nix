@@ -31,6 +31,10 @@
 
     # Audio control interface
     pavucontrol
+    pulseaudio
+
+    # Volume and brightness control
+    brightnessctl
 
     # Assorted GUI programs
     spotify

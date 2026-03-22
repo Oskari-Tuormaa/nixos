@@ -154,6 +154,13 @@ in
           "${modifier}+Shift+f" = "exec brave --enable-gpu-compositing";
           # Swap to the previously focused workspace
           "${modifier}+Tab" = "workspace back_and_forth";
+          # Volume control
+          "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
+          "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";
+          "XF86AudioMute" = "exec pactl set-sink-mute @DEFAULT_SINK@ toggle";
+          # Brightness control
+          "XF86MonBrightnessUp" = "exec brightnessctl set +5%";
+          "XF86MonBrightnessDown" = "exec brightnessctl set 5%-";
         };
       modes = {
         resize = {
