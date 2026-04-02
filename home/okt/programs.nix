@@ -131,6 +131,7 @@
       "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
       "gfapcejdoghpoidkfodoiiffaaibpaem" # Dracula color theme
       "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
+      "pccckmaobkjjboncdfnnofkonhgpceea" # Hover Zoom+
     ];
   };
 
