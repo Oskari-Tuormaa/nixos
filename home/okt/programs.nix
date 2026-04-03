@@ -82,6 +82,12 @@
     ];
   };
 
+  # gh - GitHub CLI tool
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = true;
+  };
+
   # Zoxide - fast directory navigation
   programs.zoxide = {
     enable = true;
