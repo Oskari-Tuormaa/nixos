@@ -68,7 +68,7 @@
   # Git configuration
   programs.git = {
     enable = true;
-    # Use new settings format (userName and userEmail are deprecated)
+    signing.format = null;
     settings = {
       user = {
         name = "Oskari Kristian Tuormaa";
