@@ -20,6 +20,7 @@
     nixd
     lua-language-server
     pyright
+    rust-analyzer
 
     # Neovim formatters
     nixfmt
