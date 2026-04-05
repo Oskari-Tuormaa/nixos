@@ -7,6 +7,7 @@
     ../../modules/common
     # ../../modules/features/nvidia.nix # TODO: Fix nvidia
     ../../modules/features/desktop.nix
+    ../../modules/features/bluetooth.nix
     ../../modules/features/desktop-i3.nix
   ];
 
