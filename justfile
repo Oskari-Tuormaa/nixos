@@ -3,6 +3,9 @@ current_hostname := `hostname`
 check:
     nix flake check
 
+update:
+    nix flake update
+
 clean:
     -[ -n "$(find -name '*.qcow2')" ] && trash *.qcow2
     -[ -e result ] && unlink result
