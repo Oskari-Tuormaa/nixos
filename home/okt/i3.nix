@@ -95,6 +95,7 @@ in
             size = 10.0;
           };
           statusCommand = "${inputs.statusbar.packages.${pkgs.system}.default}/bin/statusbar";
+          position = "top";
           colors = {
             background = "#282A36";
             statusline = "#F8F8F2";
