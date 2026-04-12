@@ -196,11 +196,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1775955084,
-        "narHash": "sha256-Ua/FtAV7UuPQPpua9AJ279qduzy3S3m7ORUTH5fYa0s=",
+        "lastModified": 1775957166,
+        "narHash": "sha256-9xy35S6vHMw3dKhuepF666bjs91VyrStCm5jCmf/+BM=",
         "owner": "oskari-tuormaa",
         "repo": "statusbar",
-        "rev": "1aa252092e1808625c41551566bead249ddccf3a",
+        "rev": "7446cd6a213cf422c0b5042217bd0b262ed61240",
         "type": "github"
       },
       "original": {
