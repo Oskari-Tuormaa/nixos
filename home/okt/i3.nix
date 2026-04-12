@@ -4,6 +4,7 @@
   pkgs,
   lib,
   wallpaperPath,
+  inputs,
   ...
 }:
 
@@ -93,7 +94,7 @@ in
             names = [ "JetBrainsMono Nerd Font" ];
             size = 10.0;
           };
-          statusCommand = "i3status";
+          statusCommand = "${inputs.statusbar.packages.${pkgs.system}.default}/bin/statusbar";
           colors = {
             background = "#282A36";
             statusline = "#F8F8F2";

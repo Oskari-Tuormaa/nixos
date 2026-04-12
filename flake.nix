@@ -23,6 +23,11 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    statusbar = {
+      url = "github:oskari-tuormaa/statusbar";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
