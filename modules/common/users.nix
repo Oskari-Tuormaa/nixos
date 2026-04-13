@@ -10,6 +10,7 @@
     extraGroups = [
       "wheel" # Allow sudo
       "dialout" # Access serial/USB devices (ST-Link, Arduino, etc.) without sudo
+      "netdev" # Access networking (nmcli) without sudo
     ];
     initialHashedPassword = "$y$j9T$GP.9etffB2GttjTvF7gEw0$OK/KzBwFcz7iFufUtYg9SnBrp7IvyRTIKjNafyYC2QC";
   };
