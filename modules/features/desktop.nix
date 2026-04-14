@@ -1,47 +1,65 @@
-# Common desktop environment configuration for lovelace, hopper, wilson, greene
-{ config, pkgs, ... }:
-
 {
-  services.displayManager.ly.enable = true;
+  flake.nixosModules.desktop =
+    { pkgs, ... }:
+    {
+      services.displayManager.ly.enable = true;
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
+      services.xserver = {
+        enable = true;
+        windowManager.i3.enable = true;
+        autoRepeatDelay = 250;
+        autoRepeatInterval = 25;
+        xkb = {
+          layout = "us,dk";
+          options = "grp:alt_space_toggle,caps:swapescape";
+        };
+      };
 
-  # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
-  services.udisks2.enable = true;
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        pulse.enable = true;
+      };
 
-  environment.systemPackages = with pkgs; [
-    # Screenshots
-    flameshot
+      # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
+      services.udisks2.enable = true;
 
-    # Application runner
-    rofi
+      environment.systemPackages = with pkgs; [
+        # Screenshots
+        flameshot
 
-    # Terminal
-    kitty
+        # Application runner
+        rofi
 
-    # File browser
-    nemo
+        # Terminal
+        kitty
 
-    # PDF Reader
-    zathura
+        # File browser
+        nemo
 
-    # Audio control interface
-    pavucontrol
-    pulseaudio
+        # PDF Reader
+        zathura
 
-    # Volume and brightness control
-    brightnessctl
+        # Audio control interface
+        pavucontrol
+        pulseaudio
 
-    # Assorted GUI programs
-    spotify
-    discord
-    teams-for-linux
+        # Volume and brightness control
+        brightnessctl
 
-    # Misc
-    feh
-  ];
+        # Assorted GUI programs
+        spotify
+        discord
+        teams-for-linux
+
+        # Misc
+        feh
+
+        # Window manager
+        i3
+        i3status
+        picom
+        redshift
+      ];
+    };
 }

@@ -1,31 +1,27 @@
-# Common system settings for all machines
 {
-  config,
-  pkgs,
-  lib,
-  ...
-}:
+  flake.nixosModules.common =
+    { lib, ... }:
+    {
+      # Locale and timezone - customize as needed
+      time.timeZone = "Europe/Copenhagen";
+      i18n.defaultLocale = "en_US.UTF-8";
 
-{
-  # Locale and timezone - customize as needed
-  time.timeZone = "Europe/Copenhagen";
-  i18n.defaultLocale = "en_US.UTF-8";
+      # Enable networking by default
+      networking.useDHCP = lib.mkDefault true;
+      networking.networkmanager.enable = true;
 
-  # Enable networking by default
-  networking.useDHCP = lib.mkDefault true;
-  networking.networkmanager.enable = true;
+      # Enable Nix flakes and nix-command
+      nix = {
+        settings.experimental-features = [
+          "nix-command"
+          "flakes"
+        ];
+      };
 
-  # Enable Nix flakes and nix-command
-  nix = {
-    settings.experimental-features = [
-      "nix-command"
-      "flakes"
-    ];
-  };
+      # Enable nix-ld globally
+      programs.nix-ld.enable = true;
 
-  # Enable nix-ld globally
-  programs.nix-ld.enable = true;
-
-  # Basic system configuration
-  system.stateVersion = "24.05";
+      # Basic system configuration
+      system.stateVersion = "24.05";
+    };
 }
