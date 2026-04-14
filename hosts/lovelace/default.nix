@@ -13,6 +13,17 @@
     ../../modules/features/stlink.nix
   ];
 
+  virtualisation.vmVariant = {
+    virtualisation = {
+      memorySize = 8192;
+      cores = 8;
+      resolution = {
+        x = 1920;
+        y = 1080;
+      };
+    };
+  };
+
   networking.hostName = "lovelace";
 
   # Allow unfree packages (needed for some packages like brave, nvidia drivers)
