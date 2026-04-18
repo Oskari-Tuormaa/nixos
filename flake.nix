@@ -32,12 +32,8 @@
 
   outputs =
     {
-      self,
       nixpkgs,
-      home-manager,
       nixos-wsl,
-      nix-index-database,
-      agenix,
       ...
     }@inputs:
     let
