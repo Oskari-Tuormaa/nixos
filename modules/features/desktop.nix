@@ -40,6 +40,7 @@
     spotify
     discord
     teams-for-linux
+    gimp
 
     # Misc
     feh
