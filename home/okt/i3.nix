@@ -7,8 +7,8 @@
   inputs,
   ...
 }:
-
 let
+  system = pkgs.stdenv.hostPlatform.system;
   wallpaper = pkgs.copyPathToStore wallpaperPath;
 in
 
@@ -94,7 +94,7 @@ in
             names = [ "JetBrainsMono Nerd Font" ];
             size = 10.0;
           };
-          statusCommand = "${inputs.statusbar.packages.${pkgs.system}.default}/bin/statusbar";
+          statusCommand = "${inputs.statusbar.packages.${system}.default}/bin/statusbar";
           position = "top";
           colors = {
             background = "#282A36";

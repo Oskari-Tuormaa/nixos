@@ -10,6 +10,7 @@
       ...
     }:
     let
+      system = pkgs.stdenv.hostPlatform.system;
       SSHKeyNames = map (name: "${name}-ssh-key") [
         "github"
         "mjolnerdev"
@@ -30,7 +31,7 @@
 
       # Make agenix CLI available in system packages
       environment.systemPackages = with pkgs; [
-        inputs.agenix.packages.${pkgs.system}.agenix
+        inputs.agenix.packages.${system}.agenix
       ];
 
       # Configure secrets - only load on machines that have already been bootstrapped
