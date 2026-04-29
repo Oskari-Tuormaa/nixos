@@ -49,6 +49,9 @@
     defaultEditor = true;
     viAlias = true;
     vimAlias = true;
+    # Disable legacy providers superseded by LSP; reduces closure size
+    withRuby = false;
+    withPython3 = false;
   };
 
   # Kitty terminal
