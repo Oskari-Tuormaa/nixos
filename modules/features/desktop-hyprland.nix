@@ -1,7 +1,10 @@
 # Desktop configuration for wayland/hyprland
-{ config, pkgs, ... }:
-{
-  programs.hyprland = {
-    enable = true;
-  };
+_: {
+  flake.nixosModules."desktop-hyprland" =
+    { ... }:
+    {
+      programs.hyprland = {
+        enable = true;
+      };
+    };
 }

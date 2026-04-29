@@ -1,13 +1,15 @@
-# VirtualBox guest support for greene (VM test host)
-{ config, pkgs, ... }:
+# VirtualBox guest support
+_: {
+  flake.nixosModules."vm-guest" =
+    { pkgs, ... }:
+    {
+      virtualisation.virtualbox.guest.enable = true;
 
-{
-  virtualisation.virtualbox.guest.enable = true;
+      environment.systemPackages = with pkgs; [
+        virtualbox-guest-additions
+      ];
 
-  environment.systemPackages = with pkgs; [
-    virtualbox-guest-additions
-  ];
-
-  # Enable clipboard sharing with host
-  virtualisation.virtualbox.guest.clipboard = true;
+      # Enable clipboard sharing with host
+      virtualisation.virtualbox.guest.clipboard = true;
+    };
 }

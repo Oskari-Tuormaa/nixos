@@ -1,22 +1,23 @@
+# Secure boot via lanzaboote
+{ inputs, ... }:
+
 {
-  pkgs,
-  lib,
-  inputs,
-  ...
-}:
-{
-  imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
+  flake.nixosModules.secureboot =
+    { pkgs, lib, ... }:
+    {
+      imports = [ inputs.lanzaboote.nixosModules.lanzaboote ];
 
-  environment.systemPackages = with pkgs; [ sbctl ];
+      environment.systemPackages = with pkgs; [ sbctl ];
 
-  # Lanzaboote currently replaces the systemd-boot module.
-  # This setting is usually set to true in configuration.nix
-  # generated at installation time. So we force it to false
-  # for now.
-  boot.loader.systemd-boot.enable = lib.mkForce false;
+      # Lanzaboote currently replaces the systemd-boot module.
+      # This setting is usually set to true in configuration.nix
+      # generated at installation time. So we force it to false
+      # for now.
+      boot.loader.systemd-boot.enable = lib.mkForce false;
 
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
-  };
+      boot.lanzaboote = {
+        enable = true;
+        pkiBundle = "/var/lib/sbctl";
+      };
+    };
 }

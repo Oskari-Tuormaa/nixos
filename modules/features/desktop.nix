@@ -1,48 +1,50 @@
-# Common desktop environment configuration for lovelace, hopper, wilson, greene
-{ config, pkgs, ... }:
+# Common desktop environment configuration for lovelace, hopper, wilson, hedy
+_: {
+  flake.nixosModules.desktop =
+    { pkgs, ... }:
+    {
+      services.displayManager.ly.enable = true;
 
-{
-  services.displayManager.ly.enable = true;
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        pulse.enable = true;
+      };
 
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
+      # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
+      services.udisks2.enable = true;
 
-  # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
-  services.udisks2.enable = true;
+      environment.systemPackages = with pkgs; [
+        # Screenshots
+        flameshot
 
-  environment.systemPackages = with pkgs; [
-    # Screenshots
-    flameshot
+        # Application runner
+        rofi
 
-    # Application runner
-    rofi
+        # Terminal
+        kitty
 
-    # Terminal
-    kitty
+        # File browser
+        nemo
 
-    # File browser
-    nemo
+        # PDF Reader
+        zathura
 
-    # PDF Reader
-    zathura
+        # Audio control interface
+        pavucontrol
+        pulseaudio
 
-    # Audio control interface
-    pavucontrol
-    pulseaudio
+        # Volume and brightness control
+        brightnessctl
 
-    # Volume and brightness control
-    brightnessctl
+        # Assorted GUI programs
+        spotify
+        discord
+        teams-for-linux
+        gimp
 
-    # Assorted GUI programs
-    spotify
-    discord
-    teams-for-linux
-    gimp
-
-    # Misc
-    feh
-  ];
+        # Misc
+        feh
+      ];
+    };
 }

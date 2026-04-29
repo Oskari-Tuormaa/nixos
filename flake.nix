@@ -1,3 +1,4 @@
+# Multi-machine NixOS configuration for okt's systems
 {
   description = "Multi-machine NixOS configuration for okt's systems";
 
@@ -33,83 +34,40 @@
       url = "github:nix-community/lanzaboote/v1.0.0";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    flake-parts = {
+      url = "github:hercules-ci/flake-parts";
+      inputs.nixpkgs-lib.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    {
-      nixpkgs,
-      nixos-wsl,
-      ...
-    }@inputs:
-    let
-      # Import helper functions
-      lib = (
-        import ./lib {
-          inherit (nixpkgs) lib;
-          inputs = inputs;
-        }
-      );
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
 
-      # System type for our machines
-      system = "x86_64-linux";
-
-      # Utility function to create a host with mkHost helper
-      mkHost =
-        hostname: modules: extraArgs:
-        lib.mkHost (
-          {
-            inherit hostname system;
-            modules = modules;
-          }
-          // extraArgs
-        );
-
-      pkgs = nixpkgs.legacyPackages.${system};
-
-    in
-    {
-      nixosConfigurations = {
-        # Lovelace: Personal Desktop (NVIDIA GPU + Desktop Environment)
-        lovelace = mkHost "lovelace" [
-          ./hosts/lovelace
-        ] { cpuCoreCount = 28; };
-
-        # Hopper: Personal Laptop (NVIDIA GPU + Desktop Environment)
-        hopper = mkHost "hopper" [
-          ./hosts/hopper
-        ] { cpuCoreCount = 8; };
-
-        # Wilson: Work Laptop (Encrypted + Desktop Environment)
-        # TODO: Replace with a wilson-specific wallpaper when available
-        wilson = mkHost "wilson" [
-          ./hosts/wilson
-        ] { cpuCoreCount = 8; };
-
-        # Perlman: Home Server (Headless)
-        perlman = mkHost "perlman" [
-          ./hosts/perlman
-        ] { cpuCoreCount = 8; };
-
-        # Greene: VM Test Host (WSL2 NixOS)
-        greene = mkHost "greene" [
-          nixos-wsl.nixosModules.default
-          ./hosts/greene
-        ] { cpuCoreCount = 8; };
-
-        # Hedy: QEMU/KVM Test Host (Linux KVM)
-        hedy = mkHost "hedy" [
-          ./hosts/hedy
-        ] { cpuCoreCount = 8; };
-      };
-
-      # Development environment
-      devShells.${system}.default = pkgs.mkShell {
-        description = "Development environment for NixOS configuration";
-        buildInputs = with pkgs; [
-          nixfmt
-          git
-          just
-        ];
-      };
+      imports =
+        let
+          # Recursively collect all .nix files under a directory as flake-parts modules
+          collectNixFiles =
+            dir:
+            builtins.concatLists (
+              builtins.attrValues (
+                builtins.mapAttrs (
+                  name: type:
+                  let
+                    path = dir + "/${name}";
+                  in
+                  if type == "directory" then
+                    collectNixFiles path
+                  else if type == "regular" && builtins.match ".*\\.nix$" name != null then
+                    [ path ]
+                  else
+                    [ ]
+                ) (builtins.readDir dir)
+              )
+            );
+        in
+        collectNixFiles ./modules;
     };
 }
