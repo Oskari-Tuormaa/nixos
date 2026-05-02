@@ -39,6 +39,7 @@ in
           { window_role = "bubble"; }
           { window_role = "task_dialog"; }
           { window_role = "Preferences"; }
+          { class = "Matplotlib"; }
         ];
       };
       window = {
