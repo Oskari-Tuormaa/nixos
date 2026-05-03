@@ -13,8 +13,11 @@ clean:
 nix-clean:
     sudo nix-collect-garbage -d
 
-build hostname=current_hostname:
-    sudo nixos-rebuild switch --flake .#{{hostname}}
+_rebuild type hostname:
+    sudo nixos-rebuild {{type}} --flake .#{{hostname}}
+
+switch hostname=current_hostname: (_rebuild "switch" current_hostname)
+boot hostname=current_hostname: (_rebuild "boot" current_hostname)
 
 build-vm hostname=current_hostname:
     nixos-rebuild build-vm --flake .#{{hostname}}
