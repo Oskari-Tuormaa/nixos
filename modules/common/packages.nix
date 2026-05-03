@@ -55,6 +55,7 @@ _: {
         cloudflared # Cloudflare tunnel client for SSH access
         zip
         htop
+        file
 
         # Nix utilities
         any-nix-shell # Makes nix-shell use your current shell (fish in our case)
