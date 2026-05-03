@@ -95,7 +95,9 @@ in
             names = [ "JetBrainsMono Nerd Font" ];
             size = 10.0;
           };
-          statusCommand = "${inputs.statusbar.packages.${pkgs.system}.default}/bin/statusbar";
+          statusCommand = "${
+            inputs.statusbar.packages.${pkgs.stdenv.hostPlatform.system}.default
+          }/bin/statusbar";
           position = "top";
           colors = {
             background = "#282A36";

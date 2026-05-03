@@ -28,7 +28,7 @@ in
 
   # Make agenix CLI available in system packages
   environment.systemPackages = with pkgs; [
-    inputs.agenix.packages.${pkgs.system}.agenix
+    inputs.agenix.packages.${pkgs.stdenv.hostPlatform.system}.agenix
   ];
 
   # Configure secrets - only load on machines that have already been bootstrapped

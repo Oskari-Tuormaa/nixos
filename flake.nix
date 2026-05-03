@@ -103,7 +103,7 @@
       };
 
       # Development environment
-      devShells.${system}.default = pkgs.mkShell {
+      devShells.${pkgs.stdenv.hostPlatform.system}.default = pkgs.mkShell {
         description = "Development environment for NixOS configuration";
         buildInputs = with pkgs; [
           nixfmt
