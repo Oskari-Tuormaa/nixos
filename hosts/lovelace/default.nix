@@ -27,6 +27,7 @@
   };
 
   networking.hostName = "lovelace";
+  networking.enableIPv6 = false;
 
   # Allow unfree packages (needed for some packages like brave, nvidia drivers)
   nixpkgs.config.allowUnfree = true;
