@@ -8,7 +8,7 @@
     autoRepeatInterval = 25;
     xkb = {
       layout = "us,dk";
-      options = "grp:alt_space_toggle,caps:swapescape";
+      options = "grp:alt_space_toggle";
     };
   };
 

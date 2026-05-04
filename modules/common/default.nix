@@ -5,5 +5,6 @@
     ./packages.nix
     ./settings.nix
     ./users.nix
+    ./keyd.nix
   ];
 }
