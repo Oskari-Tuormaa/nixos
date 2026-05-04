@@ -7,6 +7,7 @@
     ../../modules/common
     ../../modules/features/secureboot.nix
     ../../modules/features/nvidia.nix
+    ../../modules/features/minecraft.nix
     ../../modules/features/desktop.nix
     ../../modules/features/desktop-i3.nix
     ../../modules/features/bluetooth.nix
