@@ -55,6 +55,7 @@
     zip
     htop
     file
+    jq
 
     # Nix utilities
     any-nix-shell # Makes nix-shell use your current shell (fish in our case)
