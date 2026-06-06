@@ -11,7 +11,7 @@ clean:
     -[ -e result ] && unlink result
 
 nix-clean:
-    sudo nix-collect-garbage -d
+    sudo nix-collect-garbage -d -j auto
 
 _rebuild type hostname:
     sudo nixos-rebuild {{type}} --flake .#{{hostname}}
