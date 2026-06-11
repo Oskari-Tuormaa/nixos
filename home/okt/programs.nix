@@ -49,7 +49,9 @@
     themeFile = "Dracula";
     settings = {
       font_family = "JetBrainsMono Nerd Font";
-      font_size = 12;
+      # Scale font based on host DPI (default 96 = 12pt, 192 DPI = 24pt)
+      font_size =
+        if osConfig.services.xserver.dpi != null then 12 * osConfig.services.xserver.dpi / 96 else 12;
       window_padding_width = 6;
     };
     keybindings = {
@@ -133,26 +135,27 @@
     ];
   };
 
-  # Override Brave desktop entry to add GPU compositing flag
-  # Only create desktop entry on X11 systems
-  xdg.desktopEntries.brave = lib.mkIf osConfig.services.xserver.enable {
-    name = "Brave";
-    exec = "brave --enable-gpu-compositing %U";
-    categories = [
-      "Network"
-      "WebBrowser"
-    ];
-    mimeType = [
-      "text/html"
-      "text/xml"
-      "application/xhtml+xml"
-      "application/x-www-browser"
-      "x-scheme-handler/http"
-      "x-scheme-handler/https"
-    ];
-    icon = "brave-browser";
-    type = "Application";
-  };
+  # Brave uses system GTK scaling via GDK_SCALE, so no override needed
+  # The default desktop entry works fine with environment-based scaling
+
+  # Override Steam desktop entry to add HiDPI scaling flag
+  # Only on HiDPI systems (when dpi is set to high value)
+  xdg.desktopEntries.steam =
+    lib.mkIf
+      (
+        osConfig.services.xserver.enable
+        && osConfig.services.xserver.dpi != null
+        && osConfig.services.xserver.dpi > 120
+      )
+      {
+        name = "Steam";
+        exec = "steam -forcedesktopscaling 2 %U";
+        icon = "steam";
+        categories = [
+          "Game"
+        ];
+        type = "Application";
+      };
 
   programs.opencode = {
     enable = true;

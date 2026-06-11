@@ -1,6 +1,7 @@
 # i3 window manager configuration
 {
   config,
+  osConfig,
   pkgs,
   lib,
   wallpaperPath,
@@ -48,7 +49,9 @@ in
       };
       fonts = {
         names = [ "JetBrainsMono Nerd Font" ];
-        size = 10.0;
+        # Scale based on host DPI (default 96 = 10pt, 192 DPI = 20pt)
+        size =
+          if osConfig.services.xserver.dpi != null then 10.0 * osConfig.services.xserver.dpi / 96 else 10.0;
       };
       # Dracula colour theme for window borders and bar
       colors = {
@@ -93,6 +96,7 @@ in
         {
           fonts = {
             names = [ "JetBrainsMono Nerd Font" ];
+            # Keep bar font fixed; let GTK scaling handle the rest
             size = 10.0;
           };
           statusCommand = "${
