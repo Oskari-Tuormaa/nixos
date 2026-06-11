@@ -44,5 +44,8 @@
 
     # Misc
     feh
+
+    # Cursor theme
+    posy-cursors
   ];
 }
