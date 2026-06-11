@@ -1,4 +1,4 @@
-# NVIDIA GPU support for lovelace and hopper
+# NVIDIA GPU support for desktop machines (lovelace)
 { config, pkgs, ... }:
 
 {
@@ -9,7 +9,7 @@
     powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = true;
-    # Force full composition pipeline for tear-free rendering
+    # Force full composition pipeline for tear-free rendering on desktop
     forceFullCompositionPipeline = true;
   };
 
