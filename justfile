@@ -18,6 +18,7 @@ _rebuild type hostname:
 
 switch hostname=current_hostname: (_rebuild "switch" current_hostname)
 boot hostname=current_hostname: (_rebuild "boot" current_hostname)
+build hostname=current_hostname: (_rebuild "build" current_hostname)
 
 build-vm hostname=current_hostname:
     nixos-rebuild build-vm --flake .#{{hostname}}
