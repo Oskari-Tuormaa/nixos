@@ -3,5 +3,5 @@
 { config, pkgs, ... }:
 
 {
-  # Services go here
+  services.fwupd.enable = true;
 }
