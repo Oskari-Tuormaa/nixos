@@ -29,6 +29,9 @@
     # PDF Reader
     zathura
 
+    # Document editing
+    libreoffice
+
     # Audio control interface
     pavucontrol
     pulseaudio
