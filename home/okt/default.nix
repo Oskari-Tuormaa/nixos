@@ -20,11 +20,13 @@
     # Import xserver stuff
     ./i3.nix
     ./rofi.nix
+    ./noisetorch.nix
   ]
   ++ lib.optionals osConfig.programs.hyprland.enable [
     # Import wayland stuff
     ./hyprland.nix
     ./rofi.nix
+    ./noisetorch.nix
   ];
 
   # Home Manager configuration

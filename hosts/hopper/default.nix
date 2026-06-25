@@ -10,6 +10,7 @@
     ../../modules/features/desktop.nix
     ../../modules/features/bluetooth.nix
     ../../modules/features/desktop-i3.nix
+    ../../modules/features/noisetorch.nix
     ../../modules/services/default.nix
   ];
 

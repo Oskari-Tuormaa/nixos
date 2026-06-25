@@ -9,6 +9,7 @@
     ../../modules/features/desktop.nix
     ../../modules/features/desktop-i3.nix
     ../../modules/features/stlink.nix
+    ../../modules/features/noisetorch.nix
   ];
 
   networking.hostName = "wilson";

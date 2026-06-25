@@ -13,6 +13,7 @@
     ../../modules/features/bluetooth.nix
     ../../modules/features/steam.nix
     ../../modules/features/stlink.nix
+    ../../modules/features/noisetorch.nix
   ];
 
   virtualisation.vmVariant = {
