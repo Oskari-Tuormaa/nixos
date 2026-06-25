@@ -18,6 +18,18 @@
   # Allow unfree packages (needed for some packages like brave, nvidia drivers)
   nixpkgs.config.allowUnfree = true;
 
+  # Laptop: Switch between battery and charger profiles for power efficiency
+  services.auto-cpufreq.settings = {
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+
   # Laptop-specific optimizations can go here
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;

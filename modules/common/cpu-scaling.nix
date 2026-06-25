@@ -1,9 +1,24 @@
 # CPU frequency scaling configuration for better performance and power management
 { config, lib, ... }:
 {
-  # Intel P-State driver configuration
-  # Hardware P-State (HWP) support for modern Intel CPUs
-  powerManagement.cpuFreqGovernor = lib.mkDefault "performance";
+  # Enable auto-cpufreq for automatic AC/battery switching
+  services.auto-cpufreq.enable = true;
+
+  # Default fallback settings (can be overridden per-host)
+  services.auto-cpufreq.settings = lib.mkDefault {
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+    battery = {
+      governor = "powersave";
+      turbo = "never";
+    };
+  };
+
+  # Enable thermald for proactive thermal management (Intel CPUs)
+  # This prevents throttling by managing temps before reaching critical limits
+  services.thermald.enable = true;
 
   # Boot parameters to enable intel_pstate with HWP
   boot.kernelParams = [ "intel_pstate=active" ];

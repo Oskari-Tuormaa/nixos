@@ -32,6 +32,14 @@
   # Allow unfree packages (needed for some packages like brave, nvidia drivers)
   nixpkgs.config.allowUnfree = true;
 
+  # Always use performance mode on desktop
+  services.auto-cpufreq.settings = {
+    charger = {
+      governor = "performance";
+      turbo = "auto";
+    };
+  };
+
   # Desktop-specific services can go here
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
