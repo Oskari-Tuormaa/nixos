@@ -44,6 +44,7 @@
     discord
     teams-for-linux
     gimp
+    darktable
 
     # Misc
     feh
