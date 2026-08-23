@@ -23,23 +23,15 @@
     LADSPA_PATH = "/tmp:/usr/lib/ladspa:/usr/lib64/ladspa";
   };
 
-  # Auto-start NoiseTorch on graphical session start
-  systemd.user.services.noisetorch = {
-    Unit = {
-      Description = "NoiseTorch microphone noise suppression";
-      PartOf = "graphical-session.target";
-      After = [
-        "pipewire.service"
-        "pipewire-pulse.service"
-      ];
-    };
-    Service = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.noisetorch} -i -log";
-      RemainAfterExit = true;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
+  # Auto-start NoiseTorch on graphical session start via desktop autostart
+  # (systemd user services don't have proper PipeWire socket access)
+  xdg.configFile."autostart/noisetorch.desktop".text = ''
+    [Desktop Entry]
+    Type=Application
+    Name=NoiseTorch
+    Comment=Real-time microphone noise suppression
+    Exec=/run/wrappers/bin/noisetorch -i -s alsa_input.usb-VNV_Streaming_Webcam-02.analog-stereo
+    NoDisplay=true
+    Categories=Audio;
+  '';
 }
