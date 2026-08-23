@@ -163,6 +163,8 @@ in
           "${modifier}+Shift+f" = "exec brave --enable-gpu-compositing";
           # Swap to the previously focused workspace
           "${modifier}+Tab" = "workspace back_and_forth";
+          # Emoji picker
+          "${modifier}+period" = "exec rofimoji";
           # Volume control
           "XF86AudioRaiseVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ +5%";
           "XF86AudioLowerVolume" = "exec pactl set-sink-volume @DEFAULT_SINK@ -5%";

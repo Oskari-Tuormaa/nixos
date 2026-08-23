@@ -39,6 +39,9 @@
     # Volume and brightness control
     brightnessctl
 
+    # Emoji picker
+    rofimoji
+
     # Assorted GUI programs
     spotify
     discord
