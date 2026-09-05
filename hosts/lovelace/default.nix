@@ -14,6 +14,7 @@
     ../../modules/features/steam.nix
     ../../modules/features/stlink.nix
     ../../modules/features/noisetorch.nix
+    ../../modules/features/docker.nix
   ];
 
   virtualisation.vmVariant = {
