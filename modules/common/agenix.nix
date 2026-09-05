@@ -12,6 +12,7 @@ let
     "github"
     "mjolnerdev"
     "perlman"
+    "gitea"
   ];
 
   SSHSecrets = lib.genAttrs SSHKeyNames (name: {

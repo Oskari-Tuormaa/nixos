@@ -34,6 +34,13 @@
         proxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h";
         identityFile = [ "~/.ssh/id_perlman" ];
       };
+      "git.tuormaa.net" = {
+        hostname = "git.tuormaa.net";
+        user = "git";
+        proxyCommand = "${pkgs.cloudflared}/bin/cloudflared access ssh --hostname %h";
+        identityFile = [ "~/.ssh/id_gitea" ];
+        identitiesOnly = true;
+      };
     };
   };
 }

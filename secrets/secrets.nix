@@ -33,4 +33,7 @@ in
 
   # SSH key for accessing Perlman server
   "perlman-ssh-key.age".publicKeys = allHosts;
+
+  # SSH key for gitea server
+  "gitea-ssh-key.age".publicKeys = allHosts;
 }

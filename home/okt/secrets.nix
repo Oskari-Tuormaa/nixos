@@ -11,6 +11,7 @@ let
     "github"
     "mjolnerdev"
     "perlman"
+    "gitea"
   ];
 
   SSHKeySymlinks = builtins.listToAttrs (
