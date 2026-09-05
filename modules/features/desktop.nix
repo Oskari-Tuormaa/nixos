@@ -42,6 +42,9 @@
     # Emoji picker
     rofimoji
 
+    # CAD
+    freecad
+
     # Assorted GUI programs
     spotify
     discord
