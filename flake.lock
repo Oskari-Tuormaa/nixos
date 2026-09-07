@@ -333,11 +333,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1776158999,
-        "narHash": "sha256-bPdL8kBjSMvLwAX51YFac0Rd8nbZ2zdCc4kWUX+E6aQ=",
+        "lastModified": 1788818484,
+        "narHash": "sha256-bfPfAvaYGIaDIV1AXyKbgU0plLkHt2ENPkPtlklaepQ=",
         "owner": "oskari-tuormaa",
         "repo": "statusbar",
-        "rev": "b2eb5468f733bb29438455498f254ac124e632ed",
+        "rev": "99a7f3b13ba3ccddd2cff2716d69b56a0cdaa29a",
         "type": "github"
       },
       "original": {
