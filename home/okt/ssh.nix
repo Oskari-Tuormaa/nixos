@@ -10,12 +10,10 @@
   programs.ssh = {
     enable = true;
     enableDefaultConfig = false;
-    matchBlocks = {
+    settings = {
       "*" = {
-        addKeysToAgent = "yes";
-        identityFile = [
-          "~/.ssh/id_rsa"
-        ];
+        addKeysToAgent = true;
+        identityFile = [ "~/.ssh/id_rsa" ];
         identitiesOnly = true;
       };
       "github.com" = {

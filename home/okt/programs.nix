@@ -117,7 +117,7 @@
     ];
 
     # File preview with bat if available
-    fileWidgetOptions = [
+    fileWidget.options = [
       "--preview 'head -100 {}'"
       "--preview-window right:50%"
     ];

@@ -53,6 +53,7 @@
 
   # Cursor theme (for X11 systems)
   home.pointerCursor = lib.mkIf osConfig.services.xserver.enable {
+    enable = true;
     name = "Posy_Cursor_Black";
     package = pkgs.posy-cursors;
     size =
