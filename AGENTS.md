@@ -18,13 +18,19 @@ home/okt/                    # Home Manager config (programs, services, i3, rofi
 
 ## Build & Deploy
 
+**Agents: Only test using `nixfmt` and `nix flake check`. Do not build, switch, or deploy.**
+
 ```bash
 # Format all Nix files (REQUIRED before committing)
 nixfmt .
 
-# Validate flake syntax and evaluation
+# Validate flake syntax and evaluation (AGENTS MUST DO THIS)
 nix flake check
+```
 
+For reference, here are the manual build/deploy commands (for user reference only):
+
+```bash
 # Build specific host config (without switching)
 sudo nixos-rebuild build --flake .#<hostname>
 
@@ -39,13 +45,6 @@ sudo nixos-rebuild switch --rollback
 
 # Update flake inputs
 nix flake update && git add flake.lock
-```
-
-**Always test in greene (WSL2 sandbox) before production hosts:**
-```bash
-nix flake check
-sudo nixos-rebuild dry-run --flake .#greene
-sudo nixos-rebuild switch --flake .#greene
 ```
 
 ## Code Style
@@ -142,7 +141,7 @@ lib.mkHome {
 
 - All referenced paths must be tracked: `git add <file>` before `nixos-rebuild`
 - Commit logical units; keep `flake.lock` updates in separate commits
-- Always test in greene first before deploying to production hosts
+- Use conventional commit messages: `type(scope): description` (e.g., `feat(lovelace): add nvidia driver`, `fix(modules/common): correct fish shell config`)
 
 ## Error Handling
 
