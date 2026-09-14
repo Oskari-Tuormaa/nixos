@@ -107,6 +107,7 @@
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;
+    enableNushellIntegration = false;
 
     # fzf options
     defaultOptions = [
