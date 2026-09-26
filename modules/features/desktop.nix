@@ -14,8 +14,9 @@
   services.udisks2.enable = true;
 
   environment.systemPackages = with pkgs; [
-    # Screenshots
+    # Screenshots and recording
     flameshot
+    peek
 
     # Application runner
     rofi
