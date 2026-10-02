@@ -100,6 +100,10 @@
         hedy = mkHost "hedy" [
           ./hosts/hedy
         ] { cpuCoreCount = 8; };
+
+        hamilton = mkHost "hamilton" [
+          hosts/hamilton
+        ] { cpuCoreCount = 12; };
       };
 
       # Development environment

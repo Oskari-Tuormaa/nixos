@@ -11,15 +11,18 @@ let
   # TODO: Add hosts
   lovelace = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEwcUYz2Y/F9yH2M8E5bUAqqyBA5aYIB8iOgqCpAWF4U";
   hopper = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDXND570ya9YurMACE2hHbAhU+SSR28MGJjfWBtK9vBw";
+  hamilton = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBOQmszQJgfTemVdoSVc2D6W32exoxz5gcZTYf5BWsS/";
 
   # Groups of keys for easy management
   allHosts = [
     lovelace
     hopper
+    hamilton
   ];
   desktopHosts = [
     lovelace
     hopper
+    hamilton
   ];
   # serverHosts = [ perlman ];
 
