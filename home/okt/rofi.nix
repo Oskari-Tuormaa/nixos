@@ -142,8 +142,7 @@
       display-drun = "";
       disable-history = false;
       modi = "drun";
-      # Auto-detect DPI from monitor (1 = per-monitor detection like Qt5)
-      dpi = 1;
+      dpi = 0;
     };
   };
 }
