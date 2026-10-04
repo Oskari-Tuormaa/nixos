@@ -30,7 +30,7 @@
     Type=Application
     Name=NoiseTorch
     Comment=Real-time microphone noise suppression
-    Exec=/run/wrappers/bin/noisetorch -i -s alsa_input.usb-VNV_Streaming_Webcam-02.analog-stereo
+    Exec=/run/wrappers/bin/noisetorch -i
     NoDisplay=true
     Categories=Audio;
   '';
