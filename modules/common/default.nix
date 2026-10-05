@@ -6,6 +6,6 @@
     ./settings.nix
     ./users.nix
     ./keyd.nix
-    ./cpu-scaling.nix
+    # ./cpu-scaling.nix
   ];
 }

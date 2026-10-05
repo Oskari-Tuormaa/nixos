@@ -51,14 +51,17 @@
     nerd-fonts.jetbrains-mono
   ];
 
-  # Cursor theme (for X11 systems)
-  home.pointerCursor = lib.mkIf osConfig.services.xserver.enable {
-    enable = true;
-    name = "Posy_Cursor_Black";
-    package = pkgs.posy-cursors;
-    size =
-      if osConfig.services.xserver.dpi != null && osConfig.services.xserver.dpi > 120 then 64 else 32;
-  };
+  # Cursor theme (works for both X11 and Wayland, only on graphical systems)
+  home.pointerCursor =
+    lib.mkIf
+      (osConfig.services.xserver.enable || osConfig.services.displayManager.cosmic-greeter.enable)
+      {
+        enable = true;
+        name = "Posy_Cursor_Black";
+        package = pkgs.posy-cursors;
+        # Use smaller cursor size for Wayland; X11 can scale via XCURSOR_SIZE env var
+        size = 32;
+      };
 
   # Let home-manager manage itself
   programs.home-manager.enable = true;

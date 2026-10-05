@@ -15,6 +15,7 @@
     ../../modules/features/stlink.nix
     ../../modules/features/noisetorch.nix
     ../../modules/features/docker.nix
+    ../../modules/features/cpu-scaling.nix
   ];
 
   virtualisation.vmVariant = {
