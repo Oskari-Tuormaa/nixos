@@ -107,7 +107,6 @@
   programs.fzf = {
     enable = true;
     enableFishIntegration = true;
-    enableNushellIntegration = false;
 
     # fzf options
     defaultOptions = [
@@ -118,7 +117,7 @@
     ];
 
     # File preview with bat if available
-    fileWidget.options = [
+    fileWidgetOptions = [
       "--preview 'head -100 {}'"
       "--preview-window right:50%"
     ];
@@ -126,6 +125,7 @@
 
   programs.firefox = {
     enable = true;
+    configPath = "${config.xdg.configHome}/mozilla/firefox";
     policies = {
       # Disable Firefox's built-in password manager and use Bitwarden exclusively
       PasswordManagerEnabled = false;
