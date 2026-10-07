@@ -9,14 +9,15 @@
     ../../modules/features/nvidia.nix
     ../../modules/features/minecraft.nix
     ../../modules/features/desktop.nix
-    ../../modules/features/desktop-i3.nix
-    ../../modules/features/bluetooth.nix
+    ../../modules/features/desktop-cosmic.nix
     ../../modules/features/steam.nix
     ../../modules/features/stlink.nix
     ../../modules/features/noisetorch.nix
     ../../modules/features/docker.nix
-    ../../modules/features/cpu-scaling.nix
+    ../../modules/features/bitwig_studio.nix
   ];
+
+  hardware.bluetooth.enable = true;
 
   virtualisation.vmVariant = {
     virtualisation = {
@@ -34,14 +35,6 @@
 
   # Allow unfree packages (needed for some packages like brave, nvidia drivers)
   nixpkgs.config.allowUnfree = true;
-
-  # Always use performance mode on desktop
-  services.auto-cpufreq.settings = {
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
 
   # Desktop-specific services can go here
   boot.loader.systemd-boot.enable = true;
