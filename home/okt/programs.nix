@@ -127,6 +127,9 @@
   programs.firefox = {
     enable = true;
     policies = {
+      # Disable Firefox's built-in password manager and use Bitwarden exclusively
+      PasswordManagerEnabled = false;
+
       ExtensionSettings = {
         "*".installation_mode = "blocked";
 
