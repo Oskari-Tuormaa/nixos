@@ -18,6 +18,9 @@
     flameshot
     peek
 
+    # Browser
+    firefox
+
     # Application runner
     rofi
 

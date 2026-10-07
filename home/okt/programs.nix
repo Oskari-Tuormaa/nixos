@@ -124,20 +124,49 @@
     ];
   };
 
-  programs.brave = {
+  programs.firefox = {
     enable = true;
-    package = pkgs.brave;
-    extensions = [
-      "nngceckbapebfimnlniiiahkandclblb" # Bitwarden
-      "dbepggeogbaibhgnhhndojpepiihcmeb" # Vimium
-      "gfapcejdoghpoidkfodoiiffaaibpaem" # Dracula color theme
-      "eimadpbcbfnmbkopoojfekhnkhdbieeh" # Dark Reader
-      "pccckmaobkjjboncdfnnofkonhgpceea" # Hover Zoom+
-    ];
-  };
+    policies = {
+      ExtensionSettings = {
+        "*".installation_mode = "blocked";
 
-  # Brave uses system GTK scaling via GDK_SCALE, so no override needed
-  # The default desktop entry works fine with environment-based scaling
+        # Bitwarden
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
+
+        # Vimium
+        "{d7742d87-e61d-4b78-b8a1-b469842139fa}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4717567/vimium_ff-2.4.2.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
+
+        # Dark Reader
+        "addon@darkreader.org" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/darkreader/latest.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
+
+        # Dracula Dark Theme
+        "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4408557/dracula_dark_colorscheme-1.11.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
+      };
+    };
+    profiles.default = {
+      isDefault = true;
+      settings = {
+        # Dracula Dark Theme
+        "extensions.activeThemeID" = "{b743f56d-1cc1-4048-8ba6-f9c2ab7aa54d}";
+      };
+    };
+  };
 
   # Override Steam desktop entry to add HiDPI scaling flag
   # Only on HiDPI systems (when dpi is set to high value)

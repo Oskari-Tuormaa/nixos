@@ -93,7 +93,7 @@ in
         "${modifier} SHIFT, s, exec, flameshot gui"
 
         # Open browser
-        "${modifier} SHIFT, f, exec, brave"
+        "${modifier} SHIFT, f, exec, firefox"
 
         # Toggle floating
         "${modifier}, space, togglefloating"
