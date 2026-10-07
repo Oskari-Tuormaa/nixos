@@ -13,7 +13,7 @@
   system,
   modules,
   cpuCoreCount,
-  wallpaperPath ? ../home/okt/solar.png,
+  wallpaperPath ? ../home/okt/textured.png,
   ...
 }@args:
 
