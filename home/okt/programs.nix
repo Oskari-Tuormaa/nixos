@@ -160,6 +160,13 @@
           installation_mode = "force_installed";
           updates_disabled = false;
         };
+
+        # uBlock Origin
+        "uBlock0@raymondhill.net" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/5034826/ublock_origin-1.75.0.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
       };
     };
     profiles.default = {
