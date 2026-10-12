@@ -167,6 +167,13 @@
           installation_mode = "force_installed";
           updates_disabled = false;
         };
+
+        # FrankerFaceZ
+        "frankerfacez@frankerfacez.com" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4687253/frankerfacez-4.80.4.0.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
       };
     };
     profiles.default = {
