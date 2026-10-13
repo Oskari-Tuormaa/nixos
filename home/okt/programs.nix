@@ -53,6 +53,9 @@
       font_size =
         if osConfig.services.xserver.dpi != null then 12 * osConfig.services.xserver.dpi / 96 else 12;
       window_padding_width = 6;
+
+      background_opacity = 0.9;
+      background_blur = 32;
     };
     keybindings = {
       "ctrl+alt+enter" = "launch --type=os-window --cwd=current";
