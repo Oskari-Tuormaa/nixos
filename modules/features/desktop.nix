@@ -2,8 +2,6 @@
 { config, pkgs, ... }:
 
 {
-  services.displayManager.ly.enable = true;
-
   services.pipewire = {
     enable = true;
     alsa.enable = true;

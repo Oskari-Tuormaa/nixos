@@ -1,6 +1,8 @@
 # Desktop configuration for xserver/i3
 { config, pkgs, ... }:
 {
+  services.displayManager.ly.enable = true;
+
   services.xserver = {
     enable = true;
     windowManager.i3.enable = true;
