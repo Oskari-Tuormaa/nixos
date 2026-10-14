@@ -8,7 +8,14 @@
 {
   programs.rofi = {
     enable = true;
-    font = "JetBrainsMono Nerd Font 12";
+    settings = {
+      font = "JetBrainsMono Nerd Font 12";
+      show-icons = true;
+      display-drun = "";
+      disable-history = false;
+      modi = "drun";
+      dpi = 0;
+    };
     theme =
       let
         m = config.lib.formats.rasi.mkLiteral;
@@ -137,12 +144,5 @@
           text-color = m "inherit";
         };
       };
-    extraConfig = {
-      show-icons = true;
-      display-drun = "";
-      disable-history = false;
-      modi = "drun";
-      dpi = 0;
-    };
   };
 }
