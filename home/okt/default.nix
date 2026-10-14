@@ -18,9 +18,12 @@
   ]
   ++ lib.optionals osConfig.services.xserver.enable [
     # Import xserver stuff
+    ./noisetorch.nix
+  ]
+  ++ lib.optionals osConfig.services.xserver.windowManager.i3.enable [
+    # Import xserver stuff
     ./i3.nix
     ./rofi.nix
-    ./noisetorch.nix
   ]
   ++ lib.optionals osConfig.programs.hyprland.enable [
     # Import wayland stuff

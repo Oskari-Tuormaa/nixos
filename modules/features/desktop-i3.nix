@@ -16,8 +16,6 @@
 
   environment.systemPackages = with pkgs; [
     # Window manager
-    i3
-    i3status
     picom
     redshift
   ];
