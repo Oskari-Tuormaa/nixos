@@ -19,6 +19,9 @@
     # Browser
     firefox
 
+    # Notes
+    obsidian
+
     # Application runner
     rofi
 
