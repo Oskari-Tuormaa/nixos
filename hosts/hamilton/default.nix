@@ -9,6 +9,7 @@
     ../../modules/features/desktop-cosmic.nix
     ../../modules/features/bitwig_studio.nix
     ../../modules/features/steam.nix
+    ../../modules/features/blender.nix
   ];
 
   hardware.bluetooth.enable = true;
