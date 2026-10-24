@@ -209,7 +209,7 @@
 
   programs.opencode = {
     enable = true;
-    tui = {
+    cli = {
       theme = "dracula";
     };
   };
