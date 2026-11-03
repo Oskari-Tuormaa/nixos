@@ -10,6 +10,7 @@
     ../../modules/features/bitwig_studio.nix
     ../../modules/features/steam.nix
     ../../modules/features/blender.nix
+    ../../modules/features/packet.nix
   ];
 
   hardware.bluetooth.enable = true;
