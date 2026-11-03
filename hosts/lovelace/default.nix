@@ -16,6 +16,7 @@
     ../../modules/features/docker.nix
     ../../modules/features/bitwig_studio.nix
     ../../modules/features/blender.nix
+    ../../modules/features/packet.nix
   ];
 
   hardware.bluetooth.enable = true;
