@@ -177,6 +177,13 @@
           installation_mode = "force_installed";
           updates_disabled = false;
         };
+
+        # Danish dictionary
+        "danish@dictionaries.addons.mozilla.org" = {
+          install_url = "https://addons.mozilla.org/firefox/downloads/file/4489588/dansk_ordbog-2.9.xpi";
+          installation_mode = "force_installed";
+          updates_disabled = false;
+        };
       };
     };
     profiles.default = {
