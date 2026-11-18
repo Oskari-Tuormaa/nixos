@@ -11,6 +11,7 @@
     ../../modules/features/steam.nix
     ../../modules/features/blender.nix
     ../../modules/features/packet.nix
+    ../../modules/features/fingerprint.nix
   ];
 
   hardware.bluetooth.enable = true;
