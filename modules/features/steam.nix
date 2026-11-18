@@ -7,8 +7,7 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
     extraCompatPackages = with pkgs; [
       proton-ge-bin
-    ]
-    ;
+    ];
   };
 
   programs.gamemode.enable = true;
