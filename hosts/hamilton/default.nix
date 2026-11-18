@@ -11,6 +11,7 @@
     ../../modules/features/steam.nix
     ../../modules/features/blender.nix
     ../../modules/features/packet.nix
+    ../../modules/features/glyphie.nix
     ../../modules/features/fingerprint.nix
   ];
 

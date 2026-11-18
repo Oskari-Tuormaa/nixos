@@ -1,8 +1,8 @@
 # AGENTS.md — NixOS Configuration Repository
 
-A flakes-based NixOS configuration managing 6 machines with shared modules and per-host customisation.
+A flakes-based NixOS configuration managing 7 machines with shared modules and per-host customisation.
 
-**Hosts:** lovelace (desktop), hopper (laptop), wilson (work laptop), perlman (server), greene (WSL2), hedy (QEMU/KVM)
+**Hosts:** lovelace (desktop), hopper (laptop), wilson (work laptop), perlman (server), greene (WSL2), hedy (QEMU/KVM), hamilton (Framework laptop)
 
 ## Repository Structure
 
@@ -12,6 +12,7 @@ lib/                         # mkHost and mkHome helpers
 modules/common/              # Imported by every host (packages, settings, users)
 modules/features/            # Opt-in features (nvidia, desktop, bluetooth, steam, vm-guest, encryption, stlink)
 modules/services/            # Placeholder for future system services
+pkgs/                        # Local package definitions (called via callPackage from feature modules)
 hosts/                       # Per-machine configs + hardware-configuration.nix
 home/okt/                    # Home Manager config (programs, services, i3, rofi)
 ```
@@ -107,6 +108,8 @@ lib.mkHome {
 | `desktop.nix` | Common desktop config: ly DM, pipewire, udisks2, flameshot, rofi, kitty, nemo, pavucontrol | lovelace, hopper, wilson, hedy |
 | `desktop-i3.nix` | X11 + i3 window manager with US/Danish keyboard layout | lovelace, hopper, wilson, hedy |
 | `desktop-hyprland.nix` | Wayland + Hyprland window manager | (optional alternative to i3) |
+| `desktop-cosmic.nix` | COSMIC desktop environment + cosmic-greeter | lovelace, hamilton |
+| `glyphie.nix` | Glyphie emoji picker for COSMIC (package in `pkgs/glyphie`) | lovelace, hamilton |
 | `bluetooth.nix` | Bluetooth + blueman applet | lovelace |
 | `steam.nix` | Steam with firewall rules | lovelace |
 | `encryption.nix` | Placeholder — LUKS config lives in `hardware-configuration.nix` | wilson |

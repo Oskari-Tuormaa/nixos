@@ -17,6 +17,7 @@
     ../../modules/features/bitwig_studio.nix
     ../../modules/features/blender.nix
     ../../modules/features/packet.nix
+    ../../modules/features/glyphie.nix
   ];
 
   hardware.bluetooth.enable = true;
