@@ -217,7 +217,9 @@
   programs.opencode = {
     enable = true;
     cli = {
-      theme = "dracula";
+      theme = {
+        name = "dracula";
+      };
     };
   };
 }
