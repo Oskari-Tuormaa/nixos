@@ -220,6 +220,9 @@
       theme = {
         name = "dracula";
       };
+      session = {
+        thinking = "show";
+      };
     };
   };
 }
