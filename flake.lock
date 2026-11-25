@@ -247,6 +247,26 @@
         "type": "github"
       }
     },
+    "rakeinen": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1795566373,
+        "narHash": "sha256-W3eEDJz8GeH7Y5umay3Y+thjM1ayG0O8loeLN7WETqM=",
+        "owner": "oskari-tuormaa",
+        "repo": "rakeinen",
+        "rev": "bdb2f32e3288c43b36ffc0513d86c7a0eb10dfc2",
+        "type": "github"
+      },
+      "original": {
+        "owner": "oskari-tuormaa",
+        "repo": "rakeinen",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "agenix": "agenix",
@@ -255,6 +275,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs",
+        "rakeinen": "rakeinen",
         "statusbar": "statusbar"
       }
     },

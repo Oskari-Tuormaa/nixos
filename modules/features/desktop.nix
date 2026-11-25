@@ -1,5 +1,5 @@
 # Common desktop environment configuration for lovelace, hopper, wilson, greene
-{ config, pkgs, ... }:
+{ config, pkgs, inputs, ... }:
 
 {
   services.pipewire = {
@@ -56,6 +56,7 @@
     teams-for-linux
     gimp
     darktable
+    inputs.rakeinen.packages.${stdenv.hostPlatform.system}.default
 
     # Misc
     feh

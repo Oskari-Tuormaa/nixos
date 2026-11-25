@@ -29,6 +29,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    rakeinen = {
+      url = "github:oskari-tuormaa/rakeinen";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v1.1.0";
       inputs.nixpkgs.follows = "nixpkgs";
