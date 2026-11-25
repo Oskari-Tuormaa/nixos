@@ -254,11 +254,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1795566373,
-        "narHash": "sha256-W3eEDJz8GeH7Y5umay3Y+thjM1ayG0O8loeLN7WETqM=",
+        "lastModified": 1795568143,
+        "narHash": "sha256-N6gPRdO7BXshrQ7OLQLLoHmmJizT0StAUWuOpjOepT0=",
         "owner": "oskari-tuormaa",
         "repo": "rakeinen",
-        "rev": "bdb2f32e3288c43b36ffc0513d86c7a0eb10dfc2",
+        "rev": "69672ed64399ef1da3935693b520ae882c4e7c8b",
         "type": "github"
       },
       "original": {
