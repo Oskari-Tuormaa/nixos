@@ -1,8 +1,11 @@
-{ pkgs, ... }:
-{
-  services.fprintd.enable = true;
+{ ... }: {
+  flake.modules.nixos.fingerprint =
+    { pkgs, ... }:
+    {
+      services.fprintd.enable = true;
 
-  environment.systemPackages = with pkgs; [
-    enroll
-  ];
+      environment.systemPackages = with pkgs; [
+        enroll
+      ];
+    };
 }

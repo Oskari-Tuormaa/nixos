@@ -1,11 +1,10 @@
-# Common modules imported by all hosts
-{
-  imports = [
-    ./agenix.nix
-    ./packages.nix
-    ./settings.nix
-    ./users.nix
-    ./keyd.nix
-    # ./cpu-scaling.nix
-  ];
+{ self, ... }: {
+  flake.modules.nixos.common = { ... }: {
+    imports = [
+      self.modules.nixos.users
+      self.modules.nixos.settings
+      self.modules.nixos.keyd
+      self.modules.nixos.packages
+    ];
+  };
 }

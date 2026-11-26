@@ -1,71 +1,67 @@
-# Shared packages across all machines
-{ config, pkgs, ... }:
+{ ... }: {
+  flake.modules.nixos.packages = { pkgs, ... }: {
+    environment.systemPackages = with pkgs; [
+      # Editor
+      neovim
 
-{
-  environment.systemPackages = with pkgs; [
-    # Shell
-    fish
+      # Neovim plugin dependencies
+      tree-sitter
+      nodejs_24
+      imagemagick
 
-    # Editor
-    neovim
+      # Neovim language servers
+      clang-tools
+      cmake-language-server
+      nixd
+      lua-language-server
+      pyright
+      rust-analyzer
 
-    # Neovim plugin dependencies
-    tree-sitter
-    nodejs_24
-    imagemagick
+      # Neovim formatters
+      nixfmt
+      black
+      clang-tools
 
-    # Neovim language servers
-    clang-tools
-    cmake-language-server
-    nixd
-    lua-language-server
-    pyright
-    rust-analyzer
+      # Git and version control
+      git
+      lazygit
 
-    # Neovim formatters
-    nixfmt
-    black
-    clang-tools
+      # CLI tools
+      ripgrep
+      fd
+      eza # Modern replacement for exa (which is no longer maintained)
+      zoxide
+      fzf # Fuzzy finder for command line
+      bat
+      ncdu
+      bottom
 
-    # Git and version control
-    git
-    lazygit
+      # Utilities
+      curl
+      wget
+      tmux
+      unzip
+      which
+      trash-cli
+      xclip
+      gcc
+      gnumake
+      cloudflared # Cloudflare tunnel client for SSH access
+      zip
+      htop
+      file
+      jq
+      cmake
 
-    # CLI tools
-    ripgrep
-    fd
-    eza # Modern replacement for exa (which is no longer maintained)
-    zoxide
-    fzf # Fuzzy finder for command line
-    bat
-    ncdu
-    bottom
+      # Nix utilities
+      any-nix-shell # Makes nix-shell use your current shell (fish in our case)
+      nix-ld
 
-    # Utilities
-    curl
-    wget
-    tmux
-    unzip
-    which
-    trash-cli
-    xclip
-    gcc
-    gnumake
-    cloudflared # Cloudflare tunnel client for SSH access
-    zip
-    htop
-    file
-    jq
-    cmake
+      # AI coding assistant
+      opencode
 
-    # Nix utilities
-    any-nix-shell # Makes nix-shell use your current shell (fish in our case)
-    nix-ld
-
-    # AI coding assistant
-    opencode
-
-    # Prompt
-    starship # Modern, fast, customizable prompt
-  ];
+      # Prompt
+      starship # Modern, fast, customizable prompt
+    ];
+  };
 }

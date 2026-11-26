@@ -1,67 +1,57 @@
-# Common desktop environment configuration for lovelace, hopper, wilson, greene
-{ config, pkgs, inputs, ... }:
+{ ... }: {
+  flake.modules.nixos.desktop =
+    {
+      pkgs,
+      ...
+    }:
+    {
+      services.pipewire = {
+        enable = true;
+        alsa.enable = true;
+        pulse.enable = true;
+      };
 
-{
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    pulse.enable = true;
-  };
+      # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
+      services.udisks2.enable = true;
 
-  # udisks2 is the D-Bus backend required by udiskie (managed as a user service via Home Manager)
-  services.udisks2.enable = true;
+      environment.systemPackages = with pkgs; [
+        # Screen recorder
+        peek
 
-  environment.systemPackages = with pkgs; [
-    # Screenshots and recording
-    flameshot
-    peek
+        # Browser
+        firefox
 
-    # Browser
-    firefox
+        # Notes
+        obsidian
 
-    # Notes
-    obsidian
+        # Terminal
+        kitty
 
-    # Application runner
-    rofi
+        # Document editing
+        libreoffice
 
-    # Terminal
-    kitty
+        # Audio control interface
+        pavucontrol
+        pulseaudio
 
-    # File browser
-    nemo
+        # CAD
+        freecad
 
-    # PDF Reader
-    zathura
+        # Assorted GUI programs
+        spotify
+        discord
+        teams-for-linux
+        gimp
+        darktable
+        bitwig-studio
+        blender
+        prismlauncher
 
-    # Document editing
-    libreoffice
+        # Misc
+        feh
 
-    # Audio control interface
-    pavucontrol
-    pulseaudio
-
-    # Volume and brightness control
-    brightnessctl
-
-    # Emoji picker
-    rofimoji
-
-    # CAD
-    freecad
-
-    # Assorted GUI programs
-    spotify
-    discord
-    teams-for-linux
-    gimp
-    darktable
-    inputs.rakeinen.packages.${stdenv.hostPlatform.system}.default
-
-    # Misc
-    feh
-
-    # Cursor theme
-    posy-cursors
-  ];
+        # Cursor theme
+        posy-cursors
+      ];
+    };
 }
