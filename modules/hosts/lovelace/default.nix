@@ -12,6 +12,8 @@
       self.modules.nixos.packet
     ];
 
+    hardware.bluetooth.enable = true;
+
     virtualisation.vmVariant = {
       virtualisation = {
         memorySize = 8192;

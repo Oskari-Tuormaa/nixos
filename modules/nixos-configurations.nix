@@ -13,5 +13,6 @@ in
 {
   flake.nixosConfigurations = {
     lovelace = mkHost "lovelace" "x86_64-linux";
+    hamilton = mkHost "hamilton" "x86_64-linux";
   };
 }
